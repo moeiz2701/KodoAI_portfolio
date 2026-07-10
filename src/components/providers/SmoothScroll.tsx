@@ -26,12 +26,18 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     if (reduced) return;
+    const lenis = lenisRef.current?.lenis;
     function update(time: number) {
       lenisRef.current?.lenis?.raf(time * 1000);
     }
     gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
-    return () => gsap.ticker.remove(update);
+    // Keep ScrollTrigger in lockstep with Lenis so scrubbed timelines don't lag.
+    lenis?.on?.("scroll", ScrollTrigger.update);
+    return () => {
+      gsap.ticker.remove(update);
+      lenis?.off?.("scroll", ScrollTrigger.update);
+    };
   }, [reduced]);
 
   if (reduced) return <>{children}</>;

@@ -1,14 +1,17 @@
 import { footer, site, socials } from "@/lib/content";
 import Button from "@/components/ui/Button";
+import DotMatrix from "@/components/canvas/DotMatrix";
 
 /**
- * Footer (IMPLEMENTATION.md §10). Static in Phase 1 — the low-intensity
- * DotMatrix background and curtain reveal land in Phases 2/3.
+ * Footer (IMPLEMENTATION.md §10). Same living-banner DNA as the hero, quieter
+ * (intensity 0.45). The curtain reveal lands in Phase 3.
  */
 export default function Footer() {
   return (
-    <footer id="footer" className="relative border-t border-border bg-surface">
-      <div className="shell py-20 md:py-28">
+    <footer id="footer" className="relative overflow-hidden border-t border-border bg-surface">
+      {/* low-intensity living banner behind everything */}
+      <DotMatrix intensity={0.45} />
+      <div className="relative z-10 shell py-20 md:py-28">
         <div className="grid gap-12 md:grid-cols-3">
           {/* NAVIGATION */}
           <div>
