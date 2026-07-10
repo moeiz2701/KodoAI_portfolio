@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Design tokens — verbatim from DesignSystem.md §2.
+   Colours ONLY ever come from these variables (project rule: no hardcoded hex).
+--------------------------------------------------------------------------- */
+:root {
+  --bg: #0c0c0b;
+  --surface: #141412;
+  --surface-2: #1a1a18;
+  --surface-3: #202019;
+  --border: #2a2a26;
+  --border-2: #3a3a34;
+  --ink: #f4f3ee;
+  --ink-2: #c4c2b8;
+  --ink-3: #8a887e;
+  --muted: #5e5c52;
+  --accent: #c8f060;
+  --accent-dim: #6a802e;
+  --green: #6cd86c;
+  --green-bg: #1a2a1a;
+  --amber: #e8a838;
+  --amber-bg: #2a2010;
+  --red: #e85858;
+  --red-bg: #2a1414;
+  --blue: #78b4e8;
+  --blue-bg: #142028;
+
+  /* Font families resolve to next/font-generated vars, then graceful fallbacks. */
+  --display: var(--font-barlow), "Barlow Condensed", Impact, sans-serif;
+  --sans: var(--font-plex-sans), "IBM Plex Sans", system-ui, sans-serif;
+  --mono: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+}
+
+/* Expose tokens to Tailwind utilities (bg-bg, text-ink-2, border-border,
+   font-display, ...). `inline` keeps them referencing the runtime vars. */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-border: var(--border);
+  --color-border-2: var(--border-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-green: var(--green);
+  --color-green-bg: var(--green-bg);
+  --color-amber: var(--amber);
+  --color-amber-bg: var(--amber-bg);
+  --color-red: var(--red);
+  --color-red-bg: var(--red-bg);
+  --color-blue: var(--blue);
+  --color-blue-bg: var(--blue-bg);
+
+  --font-display: var(--display);
+  --font-sans: var(--sans);
+  --font-mono: var(--mono);
+}
+
+/* ---------------------------------------------------------------------------
+   Global resets — brutalism enforced.
+--------------------------------------------------------------------------- */
+* {
+  border-radius: 0 !important; /* project rule: zero radius on everything */
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: auto; /* Lenis owns smooth scroll */
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* Never remove focus outlines — a11y §13. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   Layout helpers.
+--------------------------------------------------------------------------- */
+.shell {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 48px;
+}
+@media (max-width: 1024px) {
+  .shell {
+    padding-inline: 24px;
+  }
+}
+@media (max-width: 768px) {
+  .shell {
+    padding-inline: 16px;
+  }
+}
+
+/* Mono eyebrow / label — DesignSystem.md §3.2. */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ---------------------------------------------------------------------------
+   Components — DesignSystem.md §5.
+--------------------------------------------------------------------------- */
+@layer components {
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--ink);
+  }
+  .btn.primary {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .btn.primary:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent-dim);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    background: transparent;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .badge.accent {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Grain overlay — IMPLEMENTATION §3.3.
+   Inline SVG feTurbulence (no external asset). Animated in 4 steps.
+--------------------------------------------------------------------------- */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 50;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 120px 120px;
+  animation: grain-shift 0.6s steps(4) infinite;
+}
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-5%, 5%); }
+  50% { transform: translate(5%, -5%); }
+  75% { transform: translate(-3%, -3%); }
+  100% { transform: translate(0, 0); }
+}
+
+.spin-slow {
+  animation: spin 12s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — every animation degrades to static (rule + §11).
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+  .spin-slow { animation: none; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
