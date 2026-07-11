@@ -1,35 +1,68 @@
+"use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { quotation } from "@/lib/content";
-import type { ReactNode } from "react";
+import { splitWords } from "@/lib/splitWords";
+import Hairline from "@/components/ui/Hairline";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const WORDS = splitWords(quotation.text, quotation.highlights);
 
 /**
  * Section 02 — QUOTATION (IMPLEMENTATION.md §5).
- * Phase 1: renders the resolved (final) state. The scrubbed word-by-word
- * highlight reveal is wired in Phase 3 via a splitWords() helper.
+ * Scrubbed reading-highlight: every word resolves from --muted to its base
+ * colour (ink, or accent for the two key phrases) as you scroll through.
  */
-function renderQuote(text: string, highlights: string[]): ReactNode[] {
-  const escaped = highlights.map((h) => h.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-  const re = new RegExp(`(${escaped.join("|")})`, "g");
-  return text.split(re).map((part, i) =>
-    highlights.includes(part) ? (
-      <span key={i} className="text-accent">
-        {part}
-      </span>
-    ) : (
-      <span key={i}>{part}</span>
-    ),
-  );
-}
-
 export default function Quotation() {
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduced) return; // words stay at their natural ink/accent colour
+
+      const muted =
+        getComputedStyle(document.documentElement).getPropertyValue("--muted").trim() || "#5e5c52";
+
+      gsap.from(".q-word", {
+        color: muted,
+        ease: "none",
+        stagger: 0.4,
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top 75%",
+          end: "bottom 55%",
+          scrub: 1,
+        },
+      });
+
+      gsap.from(".q-attr", {
+        opacity: 0,
+        y: 12,
+        duration: 0.6,
+        scrollTrigger: { trigger: root.current, start: "bottom 65%", once: true },
+      });
+    },
+    { scope: root },
+  );
+
   return (
-    <section id="quotation" className="relative flex min-h-screen items-center bg-bg">
-      <div className="absolute inset-x-0 top-0 h-px bg-border" aria-hidden />
+    <section ref={root} id="quotation" className="relative flex min-h-screen items-center bg-bg">
+      <Hairline className="absolute inset-x-0 top-0" />
       <div className="shell">
         <p className="eyebrow mb-10">{quotation.eyebrow}</p>
-        <blockquote className="max-w-[1100px] font-display text-[clamp(40px,6vw,96px)] font-extrabold uppercase leading-none tracking-tight text-ink">
-          {renderQuote(quotation.text, quotation.highlights)}
+        <blockquote className="max-w-[1100px] font-display text-[clamp(40px,6vw,96px)] font-extrabold uppercase leading-none tracking-tight">
+          {WORDS.map((w, i) => (
+            <span key={i} className={w.highlight ? "q-word text-accent" : "q-word text-ink"}>
+              {w.text}{" "}
+            </span>
+          ))}
         </blockquote>
-        <p className="eyebrow mt-10">— {quotation.attribution}</p>
+        <p className="q-attr eyebrow mt-10">— {quotation.attribution}</p>
       </div>
     </section>
   );

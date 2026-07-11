@@ -1,4 +1,5 @@
 import { faq, faqEyebrow, faqIntro } from "@/lib/content";
+import Hairline from "@/components/ui/Hairline";
 
 /**
  * Section 06 — Q&A (IMPLEMENTATION.md §9).
@@ -7,7 +8,8 @@ import { faq, faqEyebrow, faqIntro } from "@/lib/content";
  */
 export default function FAQ() {
   return (
-    <section id="faq" className="relative border-t border-border bg-bg py-24 md:py-32">
+    <section id="faq" className="relative bg-bg py-24 md:py-32">
+      <Hairline className="absolute inset-x-0 top-0" />
       <div className="shell grid gap-12 md:grid-cols-[0.4fr_0.6fr]">
         {/* left sticky header */}
         <div className="md:sticky md:top-32 md:h-max">

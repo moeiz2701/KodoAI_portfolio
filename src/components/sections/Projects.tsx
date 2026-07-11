@@ -1,4 +1,5 @@
 import { projects, projectsEyebrow } from "@/lib/content";
+import Hairline from "@/components/ui/Hairline";
 
 /**
  * Section 04 — PROJECTS / SUCCESS STORIES (IMPLEMENTATION.md §7).
@@ -7,7 +8,8 @@ import { projects, projectsEyebrow } from "@/lib/content";
  */
 export default function Projects() {
   return (
-    <section id="projects" className="relative border-t border-border bg-bg py-24 md:py-32">
+    <section id="projects" className="relative bg-bg py-24 md:py-32">
+      <Hairline className="absolute inset-x-0 top-0" />
       <div className="shell grid gap-12 md:grid-cols-[200px_1fr]">
         {/* sticky left rail */}
         <div className="md:sticky md:top-[45vh] md:h-max">

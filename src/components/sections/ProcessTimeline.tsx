@@ -1,4 +1,5 @@
 import { process, processEyebrow } from "@/lib/content";
+import Hairline from "@/components/ui/Hairline";
 
 /**
  * Section 03 — PROCESS TIMELINE (IMPLEMENTATION.md §6).
@@ -7,7 +8,8 @@ import { process, processEyebrow } from "@/lib/content";
  */
 export default function ProcessTimeline() {
   return (
-    <section id="process" className="relative border-t border-border bg-bg py-24 md:py-32">
+    <section id="process" className="relative bg-bg py-24 md:py-32">
+      <Hairline className="absolute inset-x-0 top-0" />
       <div className="shell">
         <p className="eyebrow mb-16 flex items-center gap-2">
           <span className="h-[8px] w-[8px] bg-accent" aria-hidden />
