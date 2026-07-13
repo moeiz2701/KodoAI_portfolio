@@ -43,7 +43,7 @@ export default function Services() {
   );
 
   return (
-    <section ref={root} id="services" className="relative bg-bg py-24 md:py-32">
+    <section ref={root} id="services" className="relative depth py-24 md:py-32">
       <Hairline className="absolute inset-x-0 top-0" />
       <div className="shell">
         <p className="eyebrow mb-16 flex items-center gap-2">

@@ -8,7 +8,7 @@ import Hairline from "@/components/ui/Hairline";
  */
 export default function Projects() {
   return (
-    <section id="projects" className="relative bg-bg py-24 md:py-32">
+    <section id="projects" className="relative depth py-24 md:py-32">
       <Hairline className="absolute inset-x-0 top-0" />
       <div className="shell grid gap-12 md:grid-cols-[200px_1fr]">
         {/* sticky left rail */}

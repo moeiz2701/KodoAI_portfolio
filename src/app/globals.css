@@ -17,6 +17,9 @@
   --muted: #5e5c52;
   --accent: #c8f060;
   --accent-dim: #6a802e;
+  /* Derived accent glows for depth — translucent, token-only (no hardcoded hex). */
+  --accent-glow: color-mix(in srgb, var(--accent) 7%, transparent);
+  --accent-glow-soft: color-mix(in srgb, var(--accent) 4%, transparent);
   --green: #6cd86c;
   --green-bg: #1a2a1a;
   --amber: #e8a838;
@@ -122,6 +125,13 @@ body {
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--ink-3);
+}
+
+/* Section base with a minimal accent glow for depth — use in place of a flat
+   bg-bg. The glow lives in the background layer, so it never touches content. */
+.depth {
+  background-color: var(--bg);
+  background-image: radial-gradient(100% 65% at 50% 0%, var(--accent-glow-soft), transparent 70%);
 }
 
 /* ---------------------------------------------------------------------------

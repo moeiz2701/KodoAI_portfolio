@@ -90,7 +90,7 @@ export default function ProcessTimeline() {
   );
 
   return (
-    <section ref={sectionRef} id="process" className="relative bg-bg">
+    <section ref={sectionRef} id="process" className="relative depth">
       <Hairline className="absolute inset-x-0 top-0 z-20" />
 
       {/* ---- Desktop pinned panel (md+, motion-safe) ---- */}
