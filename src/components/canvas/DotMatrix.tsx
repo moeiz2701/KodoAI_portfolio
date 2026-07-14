@@ -37,7 +37,10 @@ export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-    const CELL = isMobile ? 36 : 28;
+    // Tight grid → the dots pack into a soft cloud (banner look) rather than a
+    // sparse cross matrix. Larger cell on mobile keeps the draw count sane.
+    const CELL = isMobile ? 20 : 14;
+    const TAU = Math.PI * 2;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const noise3D = createNoise3D();
     const [dr, dg, db] = readRGB("--ink-2", [196, 194, 184]);
@@ -52,9 +55,6 @@ export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
       canvas.width = canvas.offsetWidth * dpr;
       canvas.height = canvas.offsetHeight * dpr;
       ctx.scale(dpr, dpr); // setting width/height reset the transform, so re-apply
-      ctx.font = "11px 'IBM Plex Mono', ui-monospace, monospace";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
     };
     resize();
     window.addEventListener("resize", resize);
@@ -83,11 +83,16 @@ export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
           const d = Math.hypot(mouse.x - x, mouse.y - y);
           const boost = Math.max(0, 1 - d / 180) * 0.6; // cursor excitation
           const b = Math.min(1, n * intensity + boost);
-          if (b < 0.18) continue; // empty cell
+          if (b < 0.14) continue; // empty cell
 
+          // Soft dot whose radius grows with brightness — dense areas read as
+          // cloud, sparse edges as scattered specks (banner composition).
           const ping = Math.random() < 0.00006; // rare signal flicker
-          ctx.fillStyle = ping ? accent : `rgba(${dr}, ${dg}, ${db}, ${(b * 0.55).toFixed(3)})`;
-          ctx.fillText(b > 0.45 ? "×" : "·", x, y);
+          const radius = 0.6 + b * 1.7;
+          ctx.beginPath();
+          ctx.arc(x, y, ping ? radius + 0.6 : radius, 0, TAU);
+          ctx.fillStyle = ping ? accent : `rgba(${dr}, ${dg}, ${db}, ${(b * 0.6).toFixed(3)})`;
+          ctx.fill();
         }
       }
     };

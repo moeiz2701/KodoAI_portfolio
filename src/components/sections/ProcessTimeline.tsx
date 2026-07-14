@@ -10,192 +10,142 @@ import Hairline from "@/components/ui/Hairline";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Section 03 — PROCESS TIMELINE (IMPLEMENTATION.md §6).
+ * Section 03 — PROCESS TIMELINE (IMPLEMENTATION.md §6, reworked).
  *
- * Desktop (md+, motion-safe): a pinned panel. Scrubbing advances through the 4
- * phases with a crossfade; the top rail is the node-graph — 4 square nodes with
- * an accent line that draws itself and ticks that light up as they're passed.
- * Mobile / reduced-motion: no pin — a plain vertical stack with fade-up reveals
- * (static under reduced motion). Pinned scrub on touch is the #1 janky-agency
- * mistake (decision #6), so we don't fight it.
+ * Normal vertical scroll — no pin. Each phase is a full-bleed band that
+ * alternates dark / accent-green (green bands carry black content). Inside each
+ * band the original layout returns: a giant ghost number with the phase title
+ * overlapping on the left, body copy + mono chips on the right.
+ *
+ * As a band enters, its content assembles smoothly on one timeline — the ghost
+ * number rises, the title lifts in over it, then the body and chips follow. The
+ * green centre line draws down, scrubbed to the band's scroll. Reduced motion:
+ * lines full, everything at rest.
  */
 export default function ProcessTimeline() {
   const sectionRef = useRef<HTMLElement>(null);
-  const pinRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
-      const root = sectionRef.current;
-      if (!root) return;
-      const accent =
-        getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#c8f060";
-      const border =
-        getComputedStyle(document.documentElement).getPropertyValue("--border").trim() || "#2a2a26";
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      const mm = gsap.matchMedia();
+      if (reduced) {
+        gsap.set(".t-divider", { scaleY: 1 });
+        return;
+      }
 
-      // ---- Desktop: pinned, scrubbed, snapping panel --------------------------
-      mm.add("(min-width: 768px) and (prefers-reduced-motion: no-preference)", () => {
-        const panels = gsap.utils.toArray<HTMLElement>(".t-phase", root);
-        const ticks = gsap.utils.toArray<HTMLElement>(".t-tick", root);
-        const line = root.querySelector<HTMLElement>(".t-line");
-        const N = panels.length;
-
-        gsap.set(line, { scaleX: 1 / N });
-        gsap.set(panels, { opacity: 0, yPercent: 8 });
-        gsap.set(panels[0], { opacity: 1, yPercent: 0 });
-        gsap.set(ticks, { backgroundColor: border });
-        gsap.set(ticks[0], { backgroundColor: accent });
-
+      gsap.utils.toArray<HTMLElement>(".t-band").forEach((band) => {
+        // Content assembles smoothly as the band enters the frame.
         const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: pinRef.current,
-            start: "top top",
-            end: "+=300%", // 3 transitions across 4 panels
-            pin: true,
-            scrub: 0.8,
-            snap: 1 / (N - 1),
-          },
+          scrollTrigger: { trigger: band, start: "top 72%", once: true },
         });
-
-        for (let i = 0; i < N - 1; i++) {
-          tl.to(line, { scaleX: (i + 2) / N, ease: "none" }, i);
-          tl.to(panels[i], { opacity: 0, yPercent: -8, ease: "none" }, i);
-          tl.fromTo(
-            panels[i + 1],
-            { opacity: 0, yPercent: 8 },
-            { opacity: 1, yPercent: 0, ease: "none" },
-            i,
+        tl.from(band.querySelector(".t-num"), {
+          yPercent: 18,
+          opacity: 0,
+          duration: 0.9,
+          ease: "power3.out",
+        })
+          .from(
+            band.querySelector(".t-title"),
+            { y: 48, opacity: 0, duration: 0.8, ease: "power4.out" },
+            "-=0.65",
+          )
+          .from(
+            band.querySelector(".t-body"),
+            { y: 28, opacity: 0, duration: 0.7, ease: "power3.out" },
+            "-=0.5",
+          )
+          .from(
+            band.querySelectorAll(".t-chip"),
+            { y: 14, opacity: 0, duration: 0.5, stagger: 0.06, ease: "power2.out" },
+            "-=0.4",
           );
-          tl.to(ticks[i + 1], { backgroundColor: accent, duration: 0.25, ease: "none" }, i + 0.4);
+
+        // Green centre line draws down, scrubbed to the band's scroll.
+        const line = band.querySelector(".t-divider");
+        if (line) {
+          gsap.fromTo(
+            line,
+            { scaleY: 0 },
+            {
+              scaleY: 1,
+              ease: "none",
+              scrollTrigger: { trigger: band, start: "top 80%", end: "bottom 60%", scrub: true },
+            },
+          );
         }
       });
-
-      // ---- Mobile: simple fade-up reveals (no pin) ---------------------------
-      mm.add("(max-width: 767px) and (prefers-reduced-motion: no-preference)", () => {
-        gsap.utils.toArray<HTMLElement>(".t-stack-item", root).forEach((el) => {
-          gsap.from(el, {
-            opacity: 0,
-            y: 24,
-            duration: 0.6,
-            ease: "power3.out",
-            scrollTrigger: { trigger: el, start: "top 85%", once: true },
-          });
-        });
-      });
-
-      return () => mm.revert();
     },
     { scope: sectionRef },
   );
 
   return (
-    <section ref={sectionRef} id="process" className="relative depth">
-      <Hairline className="absolute inset-x-0 top-0 z-20" />
+    <section ref={sectionRef} id="process" className="relative">
+      <Hairline className="absolute inset-x-0 top-0 z-10" />
 
-      {/* ---- Desktop pinned panel (md+, motion-safe) ---- */}
-      <div className="hidden motion-safe:md:block">
-        <div ref={pinRef} className="relative flex h-screen flex-col overflow-hidden">
-          {/* eyebrow + progress rail / node-graph */}
-          <div className="shell relative z-10 pt-28">
-            <p className="eyebrow flex items-center gap-2">
-              <span className="h-[8px] w-[8px] bg-accent" aria-hidden />
-              {processEyebrow}
-            </p>
-            <div className="relative mt-8 h-px w-full bg-border">
-              <div
-                className="t-line absolute inset-y-0 left-0 w-full origin-left bg-accent"
-                style={{ transform: "scaleX(0.25)" }}
-                aria-hidden
-              />
-              {process.map((p, i) => (
-                <span
-                  key={p.n}
-                  className="t-tick absolute top-1/2 h-[10px] w-[10px] -translate-x-1/2 -translate-y-1/2 bg-border"
-                  style={{ left: `${(i / (process.length - 1)) * 100}%` }}
-                  aria-hidden
-                />
-              ))}
-            </div>
-          </div>
+      <div className="shell pt-20 md:pt-28">
+        <p className="eyebrow flex items-center gap-2">
+          <span className="h-[8px] w-[8px] bg-accent" aria-hidden />
+          {processEyebrow}
+        </p>
+      </div>
 
-          {/* stacked phase panels, crossfaded by the timeline */}
-          <div className="shell relative z-10 flex-1">
-            <div className="relative h-full">
-              {process.map((p, i) => (
-                <div
-                  key={p.n}
-                  className="t-phase absolute inset-0 grid content-center gap-8 md:grid-cols-[0.6fr_0.4fr] md:gap-12"
-                  style={{ opacity: i === 0 ? 1 : 0 }}
-                >
-                  {/* left: ghost number + overlapping title */}
-                  <div className="relative flex items-center">
+      <div className="mt-10 flex flex-col">
+        {process.map((p, i) => {
+          const green = i % 2 === 1;
+          return (
+            <div key={p.n} className={`t-band ${green ? "bg-accent" : ""}`}>
+              <div className="shell py-16 md:py-24">
+                <div className="relative grid items-center gap-10 md:grid-cols-[0.62fr_0.38fr] md:gap-0">
+                  {/* green line down the middle (desktop) */}
+                  <span
+                    aria-hidden
+                    className={`t-divider absolute left-[62%] top-0 -ml-px hidden h-full w-0.5 origin-top md:block ${
+                      green ? "bg-bg" : "bg-accent"
+                    }`}
+                    style={{ transform: "scaleY(0)" }}
+                  />
+
+                  {/* left: giant ghost number + overlapping title */}
+                  <div className="relative flex items-center md:pr-14">
                     <span
                       aria-hidden
-                      className="pointer-events-none block font-display font-black leading-none text-surface-3"
-                      style={{ fontSize: "clamp(160px, 24vw, 340px)" }}
+                      className={`t-num pointer-events-none block font-display font-black leading-none ${
+                        green ? "text-bg/20" : "text-surface-3"
+                      }`}
+                      style={{ fontSize: "clamp(140px, 22vw, 320px)" }}
                     >
                       {p.n}
                     </span>
-                    <h3 className="absolute bottom-[18%] left-0 font-display text-[clamp(48px,7vw,88px)] font-extrabold uppercase leading-none tracking-tight text-ink">
+                    <h3
+                      className={`t-title absolute bottom-[16%] left-0 font-display text-[clamp(56px,9vw,120px)] font-extrabold uppercase leading-none tracking-tight ${
+                        green ? "text-bg" : "text-ink"
+                      }`}
+                    >
                       {p.title}
                     </h3>
                   </div>
 
                   {/* right: body + mono chips */}
-                  <div className="flex flex-col gap-6 self-center">
-                    <p className="max-w-[44ch] text-lg leading-relaxed text-ink-2">{p.body}</p>
+                  <div className="flex flex-col gap-6 md:pl-14">
+                    <p
+                      className={`t-body max-w-[46ch] text-lg leading-relaxed ${green ? "text-bg" : "text-ink-2"}`}
+                    >
+                      {p.body}
+                    </p>
                     <ul className="flex flex-wrap gap-2">
                       {p.chips.map((c) => (
-                        <li key={c} className="badge">
+                        <li key={c} className={green ? "t-chip badge border-bg text-bg" : "t-chip badge"}>
                           {`// ${c}`}
                         </li>
                       ))}
                     </ul>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ---- Mobile / reduced-motion vertical stack ---- */}
-      <div className="motion-safe:md:hidden py-24">
-        <div className="shell">
-          <p className="eyebrow mb-12 flex items-center gap-2">
-            <span className="h-[8px] w-[8px] bg-accent" aria-hidden />
-            {processEyebrow}
-          </p>
-          <ol className="flex flex-col">
-            {process.map((p) => (
-              <li key={p.n} className="t-stack-item grid gap-6 border-t border-border py-12">
-                <div className="relative">
-                  <span
-                    aria-hidden
-                    className="pointer-events-none block font-display font-black leading-none text-surface-3"
-                    style={{ fontSize: "clamp(90px, 14vw, 220px)" }}
-                  >
-                    {p.n}
-                  </span>
-                  <h3 className="mt-[-0.35em] font-display text-[clamp(36px,5vw,72px)] font-extrabold uppercase leading-none tracking-tight text-ink">
-                    {p.title}
-                  </h3>
-                </div>
-                <div className="flex flex-col gap-6">
-                  <p className="max-w-[44ch] text-lg leading-relaxed text-ink-2">{p.body}</p>
-                  <ul className="flex flex-wrap gap-2">
-                    {p.chips.map((c) => (
-                      <li key={c} className="badge">
-                        {`// ${c}`}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
+          );
+        })}
       </div>
     </section>
   );

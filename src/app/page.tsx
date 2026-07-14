@@ -9,11 +9,15 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Quotation />
-      <ProcessTimeline />
-      <Projects />
-      <Services />
-      <FAQ />
+      {/* One seamless gradient surface for all mid-page sections; the hero and
+          footer keep their own backgrounds. */}
+      <div className="depth-band">
+        <Quotation />
+        <ProcessTimeline />
+        <Projects />
+        <Services />
+        <FAQ />
+      </div>
     </>
   );
 }

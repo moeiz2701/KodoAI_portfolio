@@ -1,18 +1,51 @@
+"use client";
+
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { faq, faqEyebrow, faqIntro } from "@/lib/content";
 import Hairline from "@/components/ui/Hairline";
 
+gsap.registerPlugin(ScrollTrigger);
+
 /**
  * Section 06 — Q&A (IMPLEMENTATION.md §9).
- * Phase 1: accessible native <details> accordion (no JS). The Framer Motion
- * height-auto animation and single-open behaviour are added in Phase 6.
+ * Accessible native <details> accordion. The header and each item fade up
+ * smoothly as they enter. Reduced motion: content at rest.
  */
 export default function FAQ() {
+  const root = useRef<HTMLElement>(null);
+
+  useGSAP(
+    () => {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      gsap.from(".faq-head", {
+        opacity: 0,
+        y: 24,
+        duration: 0.6,
+        ease: "power3.out",
+        scrollTrigger: { trigger: root.current, start: "top 78%", once: true },
+      });
+      gsap.from(".faq-item", {
+        opacity: 0,
+        y: 28,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: { trigger: ".faq-list", start: "top 82%", once: true },
+      });
+    },
+    { scope: root },
+  );
+
   return (
-    <section id="faq" className="relative depth py-24 md:py-32">
+    <section ref={root} id="faq" className="relative py-24 md:py-32">
       <Hairline className="absolute inset-x-0 top-0" />
       <div className="shell grid gap-12 md:grid-cols-[0.4fr_0.6fr]">
         {/* left sticky header */}
-        <div className="md:sticky md:top-32 md:h-max">
+        <div className="faq-head md:sticky md:top-32 md:h-max">
           <h2 className="font-display text-[clamp(36px,5vw,56px)] font-extrabold uppercase leading-none tracking-tight text-ink">
             Questions,
             <br />
@@ -23,9 +56,9 @@ export default function FAQ() {
         </div>
 
         {/* right accordion */}
-        <div className="flex flex-col">
+        <div className="faq-list flex flex-col">
           {faq.map((item) => (
-            <details key={item.q} className="group border-t border-border py-5">
+            <details key={item.q} className="faq-item group border-t border-border py-5">
               <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-2xl font-bold uppercase tracking-tight text-ink md:text-[28px] [&::-webkit-details-marker]:hidden">
                 {item.q}
                 <span

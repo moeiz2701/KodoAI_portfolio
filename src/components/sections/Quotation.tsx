@@ -51,7 +51,7 @@ export default function Quotation() {
   );
 
   return (
-    <section ref={root} id="quotation" className="relative flex min-h-screen items-center depth">
+    <section ref={root} id="quotation" className="relative flex min-h-screen items-center">
       <Hairline className="absolute inset-x-0 top-0" />
       <div className="shell">
         <p className="eyebrow mb-10">{quotation.eyebrow}</p>

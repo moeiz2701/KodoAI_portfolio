@@ -42,6 +42,12 @@ export default function Footer() {
     >
       {/* low-intensity living banner behind everything */}
       <DotMatrix intensity={0.45} />
+      {/* minimal accent glow for depth */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{ background: "radial-gradient(90% 60% at 50% 0%, var(--accent-glow), transparent 70%)" }}
+      />
       <div className="relative z-10 shell py-20 md:py-28">
         <div className="grid gap-12 md:grid-cols-3">
           {/* NAVIGATION */}
@@ -73,6 +79,20 @@ export default function Footer() {
                 {site.email}
               </a>
             </p>
+            <ul className="mb-6 flex flex-col gap-2 font-mono text-sm text-ink-2">
+              {footer.sites.map((s) => (
+                <li key={s.href}>
+                  <a
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors hover:text-accent"
+                  >
+                    {s.label} ↗
+                  </a>
+                </li>
+              ))}
+            </ul>
             <div className="mb-10 text-ink-3">
               {site.location.map((line) => (
                 <p key={line}>{line}</p>
@@ -92,6 +112,8 @@ export default function Footer() {
                 <li key={s.label}>
                   <a
                     href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="font-mono text-sm uppercase tracking-widest text-ink-2 transition-colors hover:text-accent"
                   >
                     {s.label} ↗

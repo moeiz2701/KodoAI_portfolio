@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import Preloader from "@/components/layout/Preloader";
 
 const barlow = Barlow_Condensed({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({
           <Footer />
         </SmoothScroll>
         <div className="grain" aria-hidden />
+        <Preloader />
       </body>
     </html>
   );

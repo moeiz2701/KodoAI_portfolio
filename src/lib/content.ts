@@ -14,15 +14,6 @@ export type ProcessPhase = {
   chips: string[];
 };
 
-export type Project = {
-  n: string;
-  title: string;
-  desc: string;
-  metric: { value: string; unit: string; label: string };
-  videoId: string; // Cloudinary public id (wired in Phase 5)
-  posterSec: number;
-};
-
 export type Service = { title: string; desc: string };
 export type QA = { q: string; a: string };
 
@@ -33,8 +24,8 @@ export const site = {
   wordmark: { light: "KODO", accent: "AI" },
   tagline: "IF IT'S MANUAL AND MEASURABLE, IT CAN BE AUTOMATED",
   sub: "Custom AI agent systems for agencies that turn repetitive work into revenue.",
-  email: "hello@kodoai.dev",
-  location: ["Based in Islamabad, Pakistan.", "Working worldwide."],
+  email: "hello@sobanahmad.dev",
+  location: ["Working worldwide."],
   cta: { label: "START A PROJECT", href: "#footer" },
 };
 
@@ -46,10 +37,7 @@ export const nav: NavLink[] = [
 ];
 
 export const socials: Social[] = [
-  { label: "LINKEDIN", href: "#" },
-  { label: "INSTAGRAM", href: "#" },
-  { label: "X/TWITTER", href: "#" },
-  { label: "YOUTUBE", href: "#" },
+  { label: "LINKEDIN", href: "https://www.linkedin.com/in/soban-ahmad-malik/" },
 ];
 
 // -- 01 Hero -------------------------------------------------------------------
@@ -100,44 +88,7 @@ export const process: ProcessPhase[] = [
   },
 ];
 
-// -- 04 Projects ---------------------------------------------------------------
-
-export const projectsEyebrow = "SUCCESS STORIES";
-
-export const projects: Project[] = [
-  {
-    n: "01",
-    title: "LEAD INTAKE ENGINE",
-    desc: "End-to-end lead qualification agents for a US marketing agency: scoring, enrichment, CRM sync, instant routing.",
-    metric: { value: "120+", unit: "HRS", label: "saved monthly" },
-    videoId: "kodoai/lead-engine",
-    posterSec: 2,
-  },
-  {
-    n: "02",
-    title: "AI VOICE RECEPTION",
-    desc: "24/7 voice agents handling booking, rescheduling and FAQs for service businesses. Zero missed calls.",
-    metric: { value: "3.2×", unit: "MORE", label: "bookings captured" },
-    videoId: "kodoai/voice-reception",
-    posterSec: 2,
-  },
-  {
-    n: "03",
-    title: "REPORTING AUTOPILOT",
-    desc: "Client reporting that writes itself: data pulls, insight generation, branded PDF delivery every Monday 9am.",
-    metric: { value: "40H → 15M", unit: "", label: "per cycle" },
-    videoId: "kodoai/reporting-autopilot",
-    posterSec: 2,
-  },
-  {
-    n: "04",
-    title: "PROPOSAL FACTORY",
-    desc: "Research-to-proposal pipeline: competitor scans, pricing models, ready-to-send decks from a single brief.",
-    metric: { value: "6×", unit: "FASTER", label: "turnaround" },
-    videoId: "kodoai/proposal-factory",
-    posterSec: 2,
-  },
-];
+// -- 04 Projects → see src/lib/projects.ts (analyzed from previous_projects/) ---
 
 // -- 05 Services ---------------------------------------------------------------
 
@@ -196,6 +147,10 @@ export const footer = {
     { label: "CONTACT", href: "#footer" },
   ] as NavLink[],
   detailsHeading: "STUDIO DETAILS",
+  sites: [
+    { label: "SOBANAHMAD.DEV", href: "https://sobanahmad.dev/" },
+    { label: "ABDULMOEIZ.COM", href: "https://abdulmoeiz.com" },
+  ] as NavLink[],
   socialsHeading: "SOCIALS",
   ctaEyebrow: "// START A PROJECT",
   ctaLabel: "LET'S AUTOMATE",

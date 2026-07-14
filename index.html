@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The 9pm Call Your Spa Never Answered | KodoAI</title>
+<meta name="description" content="A phone agent that answers every call to your med spa, qualifies the enquiry, and books it with a deposit. Watch it take a real call.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;800;900&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0b; --surface:#141412; --surface-2:#1a1a18; --surface-3:#202019;
+  --border:#2a2a26; --border-2:#3a3a34;
+  --ink:#f4f3ee; --ink-2:#c4c2b8; --ink-3:#8a887e; --muted:#5e5c52;
+  --accent:#c8f060; --accent-dim:#6a802e;
+  --green:#6cd86c; --green-bg:#1a2a1a; --red:#e85858; --red-bg:#2a1414;
+  --display:'Barlow Condensed',sans-serif; --body:'IBM Plex Sans',sans-serif; --mono:'IBM Plex Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.6;letter-spacing:.005em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+.eyebrow{font-family:var(--mono);font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--accent)}
+.eyebrow::before{content:"// "}
+.eyebrow.dim{color:var(--ink-3)}
+h1{font-family:var(--display);font-weight:900;font-size:clamp(52px,9vw,96px);line-height:.92;letter-spacing:-.02em;text-transform:uppercase}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(36px,6vw,56px);line-height:1;letter-spacing:-.01em;text-transform:uppercase}
+h3{font-family:var(--display);font-weight:700;font-size:24px;line-height:1.1;text-transform:uppercase;letter-spacing:.01em}
+.lead{font-size:20px;color:var(--ink-2);max-width:58ch}
+p{color:var(--ink-2)}
+.accent{color:var(--accent)}
+.strike{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px}
+
+/* header */
+header{border-bottom:1px solid var(--border);position:sticky;top:0;background:rgba(12,12,11,.92);backdrop-filter:blur(8px);z-index:50}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;max-width:1060px;margin:0 auto}
+.wordmark{font-family:var(--display);font-weight:900;font-size:24px;letter-spacing:.02em;color:var(--ink);text-decoration:none;text-transform:uppercase}
+.wordmark span{color:var(--accent)}
+.nav .meta{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--ink-3);text-transform:uppercase}
+.nav-cta{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#0c0c0b;background:var(--accent);padding:10px 18px;text-decoration:none;white-space:nowrap}
+.nav-cta:hover{background:var(--ink)}
+
+/* hero */
+.hero{padding:88px 0 64px;border-bottom:1px solid var(--border);position:relative}
+.hero .wrap{display:grid;gap:28px}
+.hero h1 .l2{color:var(--accent)}
+.hero-grid{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:end}
+.hero-meta{font-family:var(--mono);font-size:13px;color:var(--ink-3);line-height:2;text-align:right;white-space:nowrap}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:none}
+
+/* buttons */
+.btn{display:inline-block;font-family:var(--mono);font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:18px 32px;border:1px solid var(--accent);transition:all .15s ease}
+.btn-solid{background:var(--accent);color:#0c0c0b}
+.btn-solid:hover{background:var(--ink);border-color:var(--ink)}
+.btn-ghost{color:var(--accent)}
+.btn-ghost:hover{background:var(--accent);color:#0c0c0b}
+.btn-row{display:flex;gap:16px;flex-wrap:wrap}
+
+/* sections */
+section{padding:80px 0;border-bottom:1px solid var(--border)}
+.sec-head{display:flex;align-items:baseline;gap:20px;margin-bottom:40px;flex-wrap:wrap}
+.sec-num{font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:.1em}
+
+/* video */
+.vsl-frame{border:1px solid var(--border-2);background:var(--surface);position:relative;aspect-ratio:100/82.73615635179152;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.vsl-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vsl-placeholder{text-align:center;padding:32px}
+.vsl-placeholder .play{width:84px;height:84px;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;transition:background .15s ease}
+.vsl-frame:hover .play{background:var(--accent)}
+.vsl-frame:hover .play svg path{fill:#0c0c0b}
+.vsl-placeholder .t{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-3)}
+.vsl-caption{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--ink-3);padding:14px 2px;letter-spacing:.08em;text-transform:uppercase;flex-wrap:wrap;gap:8px}
+
+/* mechanism */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border)}
+.step{padding:28px 22px;border-right:1px solid var(--border);background:var(--surface)}
+.step:last-child{border-right:0}
+.step .n{font-family:var(--mono);font-size:12px;color:var(--accent);letter-spacing:.15em;display:block;margin-bottom:16px}
+.step h3{margin-bottom:10px;font-size:22px}
+.step p{font-size:15px;color:var(--ink-3);line-height:1.55}
+
+/* leak math */
+.leak{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+.leak-cell{background:var(--surface);padding:36px 30px}
+.leak-cell.bad{background:var(--red-bg)}
+.leak-cell.good{background:var(--green-bg)}
+.leak-cell .lbl{font-family:var(--mono);font-size:12px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:18px}
+.leak-cell.bad .lbl{color:var(--red)}
+.leak-cell.good .lbl{color:var(--green)}
+.leak-cell ul{list-style:none}
+.leak-cell li{padding:10px 0;border-bottom:1px solid var(--border);font-size:16px;color:var(--ink-2)}
+.leak-cell li:last-child{border-bottom:0}
+.leak-cell li::before{content:"→ ";font-family:var(--mono);color:var(--ink-3)}
+
+/* call agenda */
+.agenda{border:1px solid var(--border)}
+.agenda-row{display:grid;grid-template-columns:110px 1fr;border-bottom:1px solid var(--border);background:var(--surface)}
+.agenda-row:last-child{border-bottom:0}
+.agenda-row .time{font-family:var(--mono);font-size:13px;color:var(--accent);padding:24px;border-right:1px solid var(--border);letter-spacing:.08em}
+.agenda-row .what{padding:24px}
+.agenda-row .what strong{color:var(--ink);font-weight:600}
+.agenda-row .what p{font-size:16px;color:var(--ink-3);margin-top:4px}
+
+/* faq */
+.faq{border:1px solid var(--border)}
+details{border-bottom:1px solid var(--border);background:var(--surface)}
+details:last-child{border-bottom:0}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;padding:24px;font-family:var(--display);font-weight:700;font-size:21px;text-transform:uppercase;letter-spacing:.01em;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary .plus{font-family:var(--mono);color:var(--accent);font-size:20px;flex-shrink:0}
+details[open] summary .plus{transform:rotate(45deg)}
+details .a{padding:0 24px 26px;color:var(--ink-2);max-width:70ch;font-size:16.5px}
+details[open]{background:var(--surface-2)}
+
+/* closing */
+#ready{padding-bottom:96px}
+
+/* footer */
+footer{padding:48px 0 64px}
+footer .wrap{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+footer .fm{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;line-height:2}
+
+@media(max-width:820px){
+  body{font-size:17px}
+  .steps{grid-template-columns:1fr 1fr}
+  .step{border-bottom:1px solid var(--border)}
+  .leak{grid-template-columns:1fr}
+  .hero{padding:56px 0 48px}
+  .hero-grid{grid-template-columns:1fr}
+  .hero-meta{text-align:left}
+  section{padding:56px 0}
+  .agenda-row{grid-template-columns:84px 1fr}
+  .nav .meta{display:none}
+}
+@media(max-width:520px){
+  .steps{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="wordmark" href="#top">Kodo<span>AI</span></a>
+    <div class="meta">// AI phone agents for med spas</div>
+    <a class="nav-cta" href="#vsl">Watch the demo</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <div class="eyebrow reveal">Ahead of your call with me</div>
+      <h1 class="reveal" style="transition-delay:.08s">Your phone rang<br>at 9pm Friday.<br><span class="l2">Nobody answered.</span></h1>
+      <div class="hero-grid reveal" style="transition-delay:.16s">
+        <p class="lead">She'd been thinking about Botox for months. Tonight she finally called. It went to voicemail, so she booked with the spa down the road instead. The video below shows the agent that answers that call, qualifies her, and books her with a deposit, at any hour, in a voice you'll want to hear before you believe.</p>
+        <div class="hero-meta">
+          answers // 24/7<br>
+          books // with deposit<br>
+          setup // done for you
+        </div>
+      </div>
+      <div class="btn-row reveal" style="transition-delay:.24s">
+        <a class="btn btn-solid" href="#vsl">Watch it take a call</a>
+        <a class="btn btn-ghost" href="#call">What to expect on our call</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VSL -->
+  <section id="vsl">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-num">01</span>
+        <h2>Hear it answer</h2>
+      </div>
+      <div class="vsl-frame reveal">
+        <iframe src="https://www.loom.com/embed/6a94ebfd8b1348448f9fb8c8fa9dba29" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      </div>
+      <div class="vsl-caption">
+        <span>// no slides. no pitch deck. the agent, taking a call.</span>
+        <span>// runtime 03:30</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MECHANISM -->
+  <section id="how">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-num">02</span>
+        <h2>What happens when it picks up</h2>
+      </div>
+      <div class="steps reveal">
+        <div class="step">
+          <span class="n">// 01</span>
+          <h3>Answers</h3>
+          <p>Every call, every hour. Weekends, evenings, while your front desk has a client in the chair. Nothing rings out.</p>
+        </div>
+        <div class="step">
+          <span class="n">// 02</span>
+          <h3>Handles the questions</h3>
+          <p>Treatments, pricing, availability. Answered the way your best front desk person would, from information you approve.</p>
+        </div>
+        <div class="step">
+          <span class="n">// 03</span>
+          <h3>Qualifies</h3>
+          <p>Asks the right questions before offering a slot. Junk enquiries never reach your calendar.</p>
+        </div>
+        <div class="step">
+          <span class="n">// 04</span>
+          <h3>Books with a deposit</h3>
+          <p>Straight into your calendar with a card deposit that credits to the treatment. Booked means they show up.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE LEAK -->
+  <section id="leak">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-num">03</span>
+        <h2>The leak you can't see in any report</h2>
+      </div>
+      <p class="lead reveal" style="margin-bottom:36px">Missed calls don't show up anywhere. You only ever see the bookings you got, never the ones that rang out and booked elsewhere. You know what a client is worth to your spa across a year. The only question is how many are slipping through after 6pm.</p>
+      <div class="leak reveal">
+        <div class="leak-cell bad">
+          <div class="lbl">Right now</div>
+          <ul>
+            <li>After-hours calls go to voicemail</li>
+            <li>9pm Instagram DMs wait until Monday</li>
+            <li>Front desk answers between clients</li>
+            <li>No deposit, so no-shows eat the diary</li>
+            <li>Nobody knows how many enquiries were lost</li>
+          </ul>
+        </div>
+        <div class="leak-cell good">
+          <div class="lbl">With the agent</div>
+          <ul>
+            <li>Every call answered on the second ring</li>
+            <li>Enquiries qualified before they book</li>
+            <li>Appointments secured with a deposit</li>
+            <li>Full transcript of every conversation</li>
+            <li>Your team only touches what needs a human</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE CALL -->
+  <section id="call">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-num">04</span>
+        <h2>What the 30 minutes looks like</h2>
+      </div>
+      <div class="agenda reveal">
+        <div class="agenda-row">
+          <div class="time">00-10</div>
+          <div class="what"><strong>Map your lead flow.</strong><p>Where enquiries come from, who answers, what happens after hours and to no-shows. Your numbers, out loud.</p></div>
+        </div>
+        <div class="agenda-row">
+          <div class="time">10-20</div>
+          <div class="what"><strong>Live demo, your scenario.</strong><p>You give the agent a real situation from your spa. You listen to how it handles it.</p></div>
+        </div>
+        <div class="agenda-row">
+          <div class="time">20-30</div>
+          <div class="what"><strong>The maths and the plan.</strong><p>What the gap is costing on your figures, and what fixing it looks like. If it's not a fit, I'll say so.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-num">05</span>
+        <h2>What every owner asks first</h2>
+      </div>
+      <div class="faq reveal">
+        <details>
+          <summary>Will it sound robotic? <span class="plus">+</span></summary>
+          <div class="a">You've got a recording of it above. Listen and decide for yourself. Callers regularly finish the whole conversation without realising it wasn't a person, and it never gets flustered on the fourth call of the hour.</div>
+        </details>
+        <details>
+          <summary>What if it gets a question it can't answer? <span class="plus">+</span></summary>
+          <div class="a">It doesn't guess. Anything medical, unusual, or outside what you've approved gets a message taken or the call passed to your team, and you see a full transcript of every conversation either way.</div>
+        </details>
+        <details>
+          <summary>Is this safe for my clients' information? <span class="plus">+</span></summary>
+          <div class="a">The agent handles enquiries and bookings, not medical records, and it never gives medical advice. Conversation data is stored securely and belongs to you.</div>
+        </details>
+        <details>
+          <summary>Does it replace my front desk? <span class="plus">+</span></summary>
+          <div class="a">No. It takes the calls they physically can't: after hours, weekends, and the ones that ring while they're with a client. Your team keeps the in-person work that actually needs them.</div>
+        </details>
+        <details>
+          <summary>What do I have to set up? <span class="plus">+</span></summary>
+          <div class="a">Nothing. I build it around how your spa already works: your treatments, your prices, your calendar. You review and approve everything before it takes a single live call.</div>
+        </details>
+        <details>
+          <summary>Does it work with my booking system? <span class="plus">+</span></summary>
+          <div class="a">It books directly into your calendar and works alongside the systems you already run. We'll confirm the exact fit on the call, that's part of the point of it.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- YOU'RE BOOKED -->
+  <section id="ready">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-num">06</span>
+        <h2>You're already on the calendar</h2>
+      </div>
+      <p class="lead reveal" style="margin-bottom:36px">No form here, nothing to pick. You did that on the phone. The Google Meet link is sitting in your WhatsApp thread with me, and if the time stops working, just reply there and we'll move it.</p>
+      <div class="leak reveal" style="grid-template-columns:1fr;max-width:640px">
+        <div class="leak-cell good">
+          <div class="lbl">What to expect</div>
+          <ul>
+            <li>The agent, live, on a scenario from your own spa</li>
+            <li>Real numbers, yours, not an industry average</li>
+            <li>A straight answer on fit, even if that answer is no</li>
+            <li>Nothing to sign and nothing to buy on this page</li>
+          </ul>
+        </div>
+      </div>
+      <p class="lead reveal" style="margin-top:28px;max-width:60ch">You already did the hard part: you picked up and said yes. Answering the phone from here is on us.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="wordmark" href="#top">Kodo<span>AI</span></a>
+      <div class="fm">// custom AI systems // built by Soban Ahmad</div>
+    </div>
+    <div class="fm">
+      questions // message me on WhatsApp<br>
+      need to reschedule // just reply on WhatsApp
+    </div>
+  </div>
+</footer>
+
+<script>
+// scroll reveals
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}})},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>

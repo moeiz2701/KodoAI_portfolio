@@ -1,58 +1,108 @@
-import { projects, projectsEyebrow } from "@/lib/content";
+"use client";
+
+import { useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { projects, projectsHeading } from "@/lib/projects";
 import Hairline from "@/components/ui/Hairline";
+import ProjectMedia from "@/components/ui/ProjectMedia";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const [HEAD_A, HEAD_B] = projectsHeading.split(" ");
 
 /**
- * Section 04 — PROJECTS / SUCCESS STORIES (IMPLEMENTATION.md §7).
- * Phase 1: sticky rail + static rows with poster placeholders. The
- * hover-to-play Cloudinary VideoCard and metric count-up arrive in Phase 5.
+ * Section 04 — HIGHLIGHTS (was Success Stories; IMPLEMENTATION.md §7, reworked).
+ * A full-bleed OUR HIGHLIGHTS heading, then large project blocks. The block
+ * nearest viewport centre is in focus; the others blur and dim. Each media is
+ * hover-to-play (see ProjectMedia). Reduced motion: every block sharp, at rest.
  */
 export default function Projects() {
-  return (
-    <section id="projects" className="relative depth py-24 md:py-32">
-      <Hairline className="absolute inset-x-0 top-0" />
-      <div className="shell grid gap-12 md:grid-cols-[200px_1fr]">
-        {/* sticky left rail */}
-        <div className="md:sticky md:top-[45vh] md:h-max">
-          <p className="eyebrow flex items-center gap-2">
-            <span className="h-[8px] w-[8px] bg-accent" aria-hidden />
-            {projectsEyebrow}
-          </p>
-        </div>
+  const root = useRef<HTMLElement>(null);
+  const [active, setActive] = useState(0);
+  const [reduced, setReduced] = useState(false);
 
-        {/* rows */}
-        <div className="flex flex-col">
-          {projects.map((p) => (
+  useGSAP(
+    () => {
+      const r = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setReduced(r);
+      if (r) return; // heading + focus stay at rest
+
+      // heading words rise in
+      gsap.from(".ph-word", {
+        yPercent: 110,
+        duration: 1,
+        ease: "power4.out",
+        stagger: 0.1,
+        scrollTrigger: { trigger: root.current, start: "top 78%", once: true },
+      });
+
+      // focus tracking: the block nearest centre becomes active (others blur)
+      gsap.utils.toArray<HTMLElement>(".hl-item").forEach((el, i) => {
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top 55%",
+          end: "bottom 45%",
+          onToggle: (self) => {
+            if (self.isActive) setActive(i);
+          },
+        });
+      });
+    },
+    { scope: root },
+  );
+
+  return (
+    <section ref={root} id="projects" className="relative py-24 md:py-32">
+      <Hairline className="absolute inset-x-0 top-0" />
+
+      {/* full-width, centred heading — font-size scales with the viewport */}
+      <h2 className="overflow-hidden px-4 text-center text-[13.5vw] font-display font-black uppercase leading-[0.85] tracking-normal text-ink md:px-8">
+        <span className="ph-word inline-block">{HEAD_A}</span>{" "}
+        <span className="ph-word inline-block">{HEAD_B}</span>
+      </h2>
+
+      <div className="shell mt-16 flex flex-col gap-28 md:mt-24 md:gap-44">
+        {projects.map((p, i) => {
+          const dimmed = !reduced && active !== i;
+          return (
             <article
               key={p.n}
-              className="grid gap-6 border-t border-dashed border-border-2 py-12 md:grid-cols-2 md:gap-10"
+              className="hl-item flex flex-col items-center text-center transition-[filter,opacity,transform] duration-500 ease-out"
+              style={{
+                filter: dimmed ? "blur(6px)" : "blur(0px)",
+                opacity: dimmed ? 0.45 : 1,
+                transform: dimmed ? "scale(0.985)" : "scale(1)",
+              }}
             >
-              {/* media placeholder — Cloudinary video wired in Phase 5 */}
-              <div className="relative aspect-video w-full overflow-hidden border border-border bg-surface-2">
-                <span className="absolute bottom-3 left-3 font-mono text-[11px] uppercase tracking-widest text-ink-3">
-                  ▶ WATCH
-                </span>
-              </div>
-
-              {/* info */}
-              <div className="flex flex-col">
-                <p className="eyebrow mb-4">SS ↳ [{p.n}/04]</p>
-                <h3 className="font-display text-[clamp(28px,3.5vw,44px)] font-extrabold uppercase leading-tight tracking-tight text-ink">
+              {/* title row */}
+              <div className="mb-6 flex items-baseline justify-center gap-4">
+                <span className="font-mono text-sm text-accent">{`// ${p.n}`}</span>
+                <h3 className="font-display text-[clamp(32px,5vw,72px)] font-extrabold uppercase leading-none tracking-tight text-ink">
                   {p.title}
                 </h3>
-                <p className="mt-3 max-w-[46ch] text-ink-2">{p.desc}</p>
-                <div className="mt-6 inline-flex w-max flex-col border border-border bg-surface px-5 py-4">
-                  <span className="font-display text-4xl font-extrabold leading-none text-accent">
-                    {p.metric.value}
-                    {p.metric.unit ? ` ${p.metric.unit}` : ""}
-                  </span>
-                  <span className="mt-1 font-mono text-[11px] uppercase tracking-widest text-ink-3">
-                    {p.metric.label}
-                  </span>
-                </div>
+              </div>
+
+              {/* media — hover reveals WATCH A VIDEO, click plays in place */}
+              <div className="w-full max-w-5xl">
+                <ProjectMedia image={p.image} video={p.video} title={p.title} />
+              </div>
+
+              {/* copy + stack, centred under the media */}
+              <div className="mt-6 flex w-full max-w-5xl flex-col items-center gap-5">
+                <p className="max-w-[62ch] text-lg leading-relaxed text-ink-2">{p.description}</p>
+                <ul className="flex flex-wrap justify-center gap-2">
+                  {p.stack.map((s) => (
+                    <li key={s} className="badge">
+                      {`// ${s}`}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </article>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );

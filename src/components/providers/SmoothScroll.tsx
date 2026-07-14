@@ -51,6 +51,7 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
         lerp: 0.09, // heavy, luxurious feel
         wheelMultiplier: 1,
         touchMultiplier: 1.4,
+        anchors: true, // in-page #links smooth-scroll instead of jumping
       }}
     >
       {children}

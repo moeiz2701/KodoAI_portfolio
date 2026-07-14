@@ -1,0 +1,3 @@
+call_agent : https://res.cloudinary.com/df4tjjqmc/video/upload/v1784058624/call_agent_ef3eaa.mp4
+pre_call_brief : https://res.cloudinary.com/df4tjjqmc/video/upload/v1784058232/pre_call_brief_e2qnvn.mp4
+ads_agent : https://res.cloudinary.com/df4tjjqmc/video/upload/v1784059348/ads_agent_py5drv.mp4
