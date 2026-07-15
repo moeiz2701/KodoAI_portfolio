@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { hero, site } from "@/lib/content";
+import { useLoaded } from "@/lib/loaded";
 import DotMatrix from "@/components/canvas/DotMatrix";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -24,20 +25,29 @@ export default function Hero() {
   const root = useRef<HTMLElement>(null);
   const centerRef = useRef<HTMLDivElement>(null);
   const wordmarkRef = useRef<HTMLDivElement>(null);
+  const loaded = useLoaded();
 
   useGSAP(
     () => {
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduced) return; // static frame: letters + copy at rest, no scrub
 
-      // Wordmark entrance — letters rise from below the fold (§4.1).
-      gsap.from(".hero-letter", {
-        yPercent: 100,
-        duration: 1.2,
-        stagger: 0.05,
-        ease: "power4.out",
-        delay: 0.15,
-      });
+      // Hold the entrance targets hidden. Set on EVERY run (not just the first)
+      // so that when the hook re-runs on `loaded`, the reveal animates from this
+      // hidden state to visible — a plain `.from()` here would read the already
+      // hidden current value as its target and leave the content invisible.
+      gsap.set(".hero-letter", { yPercent: 100 });
+      gsap.set(".hero-desc", { autoAlpha: 0, y: 24 });
+      if (!loaded) return; // scroll is locked during preload; reveal once loaded
+
+      // Entrance — plays as the preloader fades: wordmark letters rise (§4.1),
+      // then the description settles up just after.
+      const tl = gsap.timeline();
+      tl.to(".hero-letter", { yPercent: 0, duration: 1.2, stagger: 0.05, ease: "power4.out" }).to(
+        ".hero-desc",
+        { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out" },
+        0.35,
+      );
 
       // Scroll: copy parallaxes up, wordmark scales down + fades (§4.1).
       const st = {
@@ -55,7 +65,7 @@ export default function Hero() {
         scrollTrigger: st,
       });
     },
-    { scope: root },
+    { dependencies: [loaded], scope: root },
   );
 
   return (
@@ -95,14 +105,17 @@ export default function Hero() {
       <div ref={centerRef} className="relative z-[2] flex flex-col items-center px-6 text-center">
         {/* Description: both lines share one font, size and muted tone — kept small
             and quiet so the giant wordmark carries the hero. Nudged up toward the
-            top third. */}
-        <div className="flex max-w-[44ch] -translate-y-[10vh] flex-col gap-2 text-ink-3">
-          <h2 className="text-sm font-normal leading-relaxed tracking-wide md:text-base">
-            {hero.headline}
-          </h2>
-          <p className="text-sm font-normal leading-relaxed tracking-wide md:text-base">
-            {hero.sub}
-          </p>
+            top third. The persistent -10vh lift lives on the outer wrapper so the
+            entrance `y` on .hero-desc doesn't fight it. */}
+        <div className="max-w-[44ch] -translate-y-[10vh]">
+          <div className="hero-desc flex flex-col gap-2 text-ink-3">
+            <h2 className="text-sm font-normal leading-relaxed tracking-wide md:text-base">
+              {hero.headline}
+            </h2>
+            <p className="text-sm font-normal leading-relaxed tracking-wide md:text-base">
+              {hero.sub}
+            </p>
+          </div>
         </div>
       </div>
 

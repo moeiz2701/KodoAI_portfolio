@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Barlow_Condensed, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/providers/SmoothScroll";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import Preloader from "@/components/layout/Preloader";
 
 const barlow = Barlow_Condensed({
@@ -47,11 +45,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${barlow.variable} ${plexSans.variable} ${plexMono.variable}`}>
       <body>
-        <SmoothScroll>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </SmoothScroll>
+        {/* Global shell for every route. Per-route chrome (Header/Footer) lives
+            in the (site) group layout; case study pages bring their own nav. */}
+        <SmoothScroll>{children}</SmoothScroll>
         <div className="grain" aria-hidden />
         <Preloader />
       </body>

@@ -10,10 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Project media (IMPLEMENTATION.md §7.3, adapted).
- * Poster image first; the WATCH A VIDEO pill fades up on hover, and where hover
- * isn't available (touch) it stays shown so mobile users see the affordance.
- * Clicking / tapping plays the Cloudinary clip in place (one user gesture, so
- * it may autoplay).
+ * Poster image first; the WATCH A VIDEO pill fades up on hover. On touch devices
+ * or mobile-width screens (no hover to reveal it) the pill stays pinned so those
+ * users always see the affordance. Clicking / tapping plays the Cloudinary clip
+ * in place (one user gesture, so it may autoplay).
  *
  * The poster sits on an over-sized layer that drifts vertically with scroll
  * (parallax); the drift lives on that layer, not the image. Re-runs on toggle.
@@ -29,10 +29,16 @@ export default function ProjectMedia({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
-  const [noHover, setNoHover] = useState(false); // touch → show overlay always
+  // Touch devices OR mobile-width screens (< md, 768px) pin the overlay so the
+  // WATCH affordance is always visible there — no hover to reveal it.
+  const [alwaysShow, setAlwaysShow] = useState(false);
 
   useEffect(() => {
-    setNoHover(window.matchMedia("(hover: none)").matches);
+    const mq = window.matchMedia("(hover: none), (max-width: 767px)");
+    const update = () => setAlwaysShow(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
   }, []);
 
   useGSAP(
@@ -85,15 +91,15 @@ export default function ProjectMedia({
           <span className="hl-parallax absolute inset-x-0 -top-[10%] block h-[120%]">
             <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, 1024px" className="object-cover" />
           </span>
-          {/* scrim + pill — hover-revealed on pointer devices, always shown on touch */}
+          {/* scrim + pill — hover-revealed on pointer devices, always shown on touch / mobile width */}
           <span
             className={`absolute inset-0 flex items-center justify-center transition-colors duration-300 ${
-              noHover ? "bg-bg/25" : "bg-bg/0 group-hover:bg-bg/25"
+              alwaysShow ? "bg-bg/25" : "bg-bg/0 group-hover:bg-bg/25"
             }`}
           >
             <span
               className={`btn primary transition-all duration-300 ease-out ${
-                noHover
+                alwaysShow
                   ? "translate-y-0 opacity-100"
                   : "translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
               }`}

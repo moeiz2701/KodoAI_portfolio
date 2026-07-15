@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { faq, faqEyebrow, faqIntro } from "@/lib/content";
 import Hairline from "@/components/ui/Hairline";
 
@@ -11,11 +12,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * Section 06 — Q&A (IMPLEMENTATION.md §9).
- * Accessible native <details> accordion. The header and each item fade up
- * smoothly as they enter. Reduced motion: content at rest.
+ * Single-open accordion: clicking a question animates its answer open (height
+ * auto via Framer Motion) and closes any other. The GSAP reveal stays on the
+ * item wrapper (.faq-item); Framer only animates the inner answer height, so
+ * the two never fight (project rule: React/GSAP don't cross streams).
+ * Reduced motion: reveal skipped and the open/close is instant.
  */
 export default function FAQ() {
   const root = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState<number | null>(null);
+  const reduced = useReducedMotion();
 
   useGSAP(
     () => {
@@ -57,20 +63,60 @@ export default function FAQ() {
 
         {/* right accordion */}
         <div className="faq-list flex flex-col">
-          {faq.map((item) => (
-            <details key={item.q} className="faq-item group border-t border-border py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-display text-2xl font-bold uppercase tracking-tight text-ink md:text-[28px] [&::-webkit-details-marker]:hidden">
-                {item.q}
-                <span
-                  aria-hidden
-                  className="shrink-0 font-sans text-2xl text-ink-3 transition-transform duration-300 group-open:rotate-45 group-open:text-accent"
+          {faq.map((item, i) => {
+            const isOpen = open === i;
+            return (
+              <div key={item.q} className="faq-item border-t border-border">
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  aria-controls={`faq-panel-${i}`}
+                  id={`faq-trigger-${i}`}
+                  className="flex w-full cursor-pointer items-center justify-between gap-6 py-5 text-left font-display text-2xl font-bold uppercase tracking-tight text-ink transition-colors hover:text-accent md:text-[28px]"
                 >
-                  +
-                </span>
-              </summary>
-              <p className="mt-4 max-w-[60ch] text-ink-2">{item.a}</p>
-            </details>
-          ))}
+                  {item.q}
+                  <span
+                    aria-hidden
+                    className={`shrink-0 font-sans text-2xl transition-transform duration-300 ${
+                      isOpen ? "rotate-45 text-accent" : "text-ink-3"
+                    }`}
+                  >
+                    +
+                  </span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      id={`faq-panel-${i}`}
+                      role="region"
+                      aria-labelledby={`faq-trigger-${i}`}
+                      key="answer"
+                      initial="collapsed"
+                      animate="open"
+                      exit="collapsed"
+                      variants={{
+                        open: { height: "auto", opacity: 1 },
+                        collapsed: { height: 0, opacity: 0 },
+                      }}
+                      transition={
+                        reduced
+                          ? { duration: 0 }
+                          : {
+                              height: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+                              opacity: { duration: 0.3, ease: "easeOut" },
+                            }
+                      }
+                      className="overflow-hidden"
+                    >
+                      <p className="max-w-[60ch] pb-6 text-ink-2">{item.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

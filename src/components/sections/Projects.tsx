@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { projects, projectsHeading } from "@/lib/projects";
 import Hairline from "@/components/ui/Hairline";
 import ProjectMedia from "@/components/ui/ProjectMedia";
+import Button from "@/components/ui/Button";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -87,6 +88,13 @@ export default function Projects() {
               {/* media — hover reveals WATCH A VIDEO, click plays in place */}
               <div className="w-full max-w-5xl">
                 <ProjectMedia image={p.image} video={p.video} title={p.title} />
+              </div>
+
+              {/* secondary CTA — a full case study on its own page, below the video */}
+              <div className="mt-6">
+                <Button href={`/case-study/${p.caseStudy}`} arrow ariaLabel={`Read the ${p.title} case study`}>
+                  VIEW CASE STUDY
+                </Button>
               </div>
 
               {/* copy + stack, centred under the media */}

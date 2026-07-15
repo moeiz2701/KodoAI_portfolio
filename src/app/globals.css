@@ -151,6 +151,34 @@ html {
   color: var(--ink-3);
 }
 
+/* Nav hover fill — accent green wipes in from the left, text flips to --bg for
+   contrast. transform-based (scaleX) so it stays GPU-smooth. Used by the header
+   nav links and the footer navigation. Under reduced-motion the global rule
+   collapses the transition, so the fill snaps in instantly (no wipe). */
+.nav-fill {
+  position: relative;
+  isolation: isolate; /* keep the z-index:-1 fill scoped behind the text only */
+  transition: color 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.nav-fill:hover,
+.nav-fill:focus-visible {
+  color: var(--bg);
+}
+.nav-fill:hover::before,
+.nav-fill:focus-visible::before {
+  transform: scaleX(1);
+}
+
 /* One continuous background for every mid-page section (between hero and
    footer). The sections themselves stay transparent and sit on this single
    surface, so they read as one seamless gradient — no per-section banding.

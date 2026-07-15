@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { markLoaded } from "@/lib/loaded";
 
 /**
  * Full-screen preloader (IMPLEMENTATION.md §11 A1). Solid --bg (same as the page
@@ -20,6 +21,7 @@ export default function Preloader() {
     const finish = () => {
       if (cancelled) return;
       setDone(true);
+      markLoaded(); // release the hero + header entrances as the curtain lifts
       window.setTimeout(() => {
         if (!cancelled) setGone(true);
       }, 700); // matches the fade duration below

@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# reference-only source project (case studies were distilled from here into
+# src/lib/caseStudies.ts). Kept locally, never built or deployed.
+/portfolio

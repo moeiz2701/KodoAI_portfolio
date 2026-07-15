@@ -10,7 +10,8 @@ const compat = new FlatCompat({ baseDirectory: __dirname });
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
-    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts"],
+    // `portfolio/` is a reference-only source project (not built or deployed).
+    ignores: [".next/**", "out/**", "build/**", "next-env.d.ts", "portfolio/**"],
   },
 ];
 

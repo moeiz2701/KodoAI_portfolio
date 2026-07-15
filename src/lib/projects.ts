@@ -13,6 +13,7 @@ export type Project = {
   stack: string[];
   image: string; // path under /public
   video: string; // Cloudinary mp4
+  caseStudy: string; // slug under /case-study (see src/lib/caseStudies.ts)
 };
 
 export const projectsHeading = "OUR HIGHLIGHTS";
@@ -27,6 +28,7 @@ export const projects: Project[] = [
     stack: ["VAPI", "TWILIO", "CLAUDE", "ELEVENLABS", "FASTIFY", "POSTGRES"],
     image: "/projects/call_agent.jpg",
     video: "https://res.cloudinary.com/df4tjjqmc/video/upload/v1784058624/call_agent_ef3eaa.mp4",
+    caseStudy: "ai-voice-receptionist",
   },
   {
     n: "02",
@@ -38,6 +40,7 @@ export const projects: Project[] = [
     image: "/projects/pre_call_brief.jpg",
     video:
       "https://res.cloudinary.com/df4tjjqmc/video/upload/v1784058232/pre_call_brief_e2qnvn.mp4",
+    caseStudy: "automated-pre-call-brief-generator",
   },
   {
     n: "03",
@@ -48,5 +51,6 @@ export const projects: Project[] = [
     stack: ["NEXT.JS", "LANGCHAIN", "GEMINI", "GOOGLE ADS API", "SATORI", "SUPABASE"],
     image: "/projects/ads_agent.png",
     video: "https://res.cloudinary.com/df4tjjqmc/video/upload/v1784059348/ads_agent_py5drv.mp4",
+    caseStudy: "ai-google-ads-automation",
   },
 ];

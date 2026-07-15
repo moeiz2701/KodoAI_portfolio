@@ -24,8 +24,29 @@ function readRGB(varName: string, fallback: [number, number, number]): [number, 
  * the footer at low intensity.
  *
  * Procedural only — never samples reference/banner.png.
+ *
+ * The per-frame cost scales with the canvas area (cells × devicePixelRatio).
+ * The footer canvas is much taller than the hero, so it takes the cheaper knobs
+ * (`fps` cap, lower `maxDpr`, bigger `cellScale`, no cursor `interactive`) to
+ * stay smooth. Defaults keep the hero exactly as it was.
  */
-export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
+export default function DotMatrix({
+  intensity = 1,
+  fps = 0,
+  maxDpr = 2,
+  cellScale = 1,
+  interactive = true,
+}: {
+  intensity?: number;
+  /** Redraw cap; 0 = uncapped (native rAF, ~60fps). */
+  fps?: number;
+  /** Backing-store resolution cap (min with devicePixelRatio). */
+  maxDpr?: number;
+  /** Multiplies the base cell size; >1 → fewer dots. */
+  cellScale?: number;
+  /** Cursor excitation (adds a per-cell distance calc + a window listener). */
+  interactive?: boolean;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -39,9 +60,9 @@ export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
 
     // Tight grid → the dots pack into a soft cloud (banner look) rather than a
     // sparse cross matrix. Larger cell on mobile keeps the draw count sane.
-    const CELL = isMobile ? 20 : 14;
+    const CELL = Math.round((isMobile ? 20 : 14) * cellScale);
     const TAU = Math.PI * 2;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
     const noise3D = createNoise3D();
     const [dr, dg, db] = readRGB("--ink-2", [196, 194, 184]);
     const accent =
@@ -64,7 +85,7 @@ export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
       mouse.x = e.clientX - r.left;
       mouse.y = e.clientY - r.top;
     };
-    const trackCursor = !isMobile && !reduced;
+    const trackCursor = interactive && !isMobile && !reduced;
     if (trackCursor) window.addEventListener("pointermove", onMove);
 
     const draw = () => {
@@ -80,9 +101,12 @@ export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
           n = (n + 1) / 2; // 0..1
           n *= 1.15 - (x / W) * 0.85; // denser left, fades right (banner composition)
 
-          const d = Math.hypot(mouse.x - x, mouse.y - y);
-          const boost = Math.max(0, 1 - d / 180) * 0.6; // cursor excitation
-          const b = Math.min(1, n * intensity + boost);
+          let b = n * intensity;
+          if (trackCursor) {
+            const d = Math.hypot(mouse.x - x, mouse.y - y);
+            b += Math.max(0, 1 - d / 180) * 0.6; // cursor excitation
+          }
+          b = Math.min(1, b);
           if (b < 0.14) continue; // empty cell
 
           // Soft dot whose radius grows with brightness — dense areas read as
@@ -97,10 +121,16 @@ export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
       }
     };
 
-    const loop = () => {
+    // Optional frame-rate cap: for large/low-priority canvases (the footer) a
+    // slow-drift cloud looks the same at ~30fps but costs half as much.
+    const frameInterval = fps > 0 ? 1000 / fps : 0;
+    let last = -Infinity;
+    const loop = (now: number) => {
+      raf = requestAnimationFrame(loop);
+      if (now - last < frameInterval) return; // skip this frame (throttled)
+      last = now;
       t += 0.0016; // slow drift
       draw();
-      raf = requestAnimationFrame(loop);
     };
 
     // Pause the loop while the canvas is off-screen (perf rule §4.2).
@@ -130,7 +160,7 @@ export default function DotMatrix({ intensity = 1 }: { intensity?: number }) {
       window.removeEventListener("resize", resize);
       if (trackCursor) window.removeEventListener("pointermove", onMove);
     };
-  }, [intensity]);
+  }, [intensity, fps, maxDpr, cellScale, interactive]);
 
   return <canvas ref={ref} className="absolute inset-0 h-full w-full" aria-hidden />;
 }
