@@ -280,12 +280,39 @@ html {
   to { transform: rotate(360deg); }
 }
 
+/* Hero wordmark: the AI pair sits at full opacity and carries a soft accent
+   bloom (three stacked halos, tight to wide) that breathes slowly. Only ever
+   applied to the accent letters — KODO stays flat and recessive. */
+.accent-bloom {
+  color: var(--accent);
+  text-shadow:
+    0 0 16px color-mix(in srgb, var(--accent) 45%, transparent),
+    0 0 44px color-mix(in srgb, var(--accent) 28%, transparent),
+    0 0 100px color-mix(in srgb, var(--accent) 18%, transparent);
+  animation: accent-bloom-breathe 5s ease-in-out infinite;
+}
+@keyframes accent-bloom-breathe {
+  0%, 100% {
+    text-shadow:
+      0 0 16px color-mix(in srgb, var(--accent) 45%, transparent),
+      0 0 44px color-mix(in srgb, var(--accent) 28%, transparent),
+      0 0 100px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+  50% {
+    text-shadow:
+      0 0 22px color-mix(in srgb, var(--accent) 60%, transparent),
+      0 0 60px color-mix(in srgb, var(--accent) 38%, transparent),
+      0 0 130px color-mix(in srgb, var(--accent) 26%, transparent);
+  }
+}
+
 /* ---------------------------------------------------------------------------
    Reduced motion — every animation degrades to static (rule + §11).
 --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .grain { animation: none; }
   .spin-slow { animation: none; }
+  .accent-bloom { animation: none; } /* bloom stays, it just stops breathing */
   *,
   *::before,
   *::after {

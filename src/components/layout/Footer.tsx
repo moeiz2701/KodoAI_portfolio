@@ -86,7 +86,7 @@ export default function Footer() {
           <div className="h-px w-full bg-border" aria-hidden />
         </div>
 
-        <div className="footer-grid shell py-20 md:py-28">
+        <div className="footer-grid shell pb-6 pt-20 md:pb-8 md:pt-28">
           <div className="grid gap-12 md:grid-cols-3">
           {/* NAVIGATION */}
           <div className="footer-block">

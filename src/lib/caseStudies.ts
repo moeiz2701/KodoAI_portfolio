@@ -68,7 +68,7 @@ const CTA_BODY =
   "We scope everything in detail before payment is taken. You work directly with a senior engineer, not a project manager relaying messages to an offshore team.";
 
 export const caseStudies: CaseStudy[] = [
-  // ── 01 · AI Voice Receptionist ──────────────────────────────────────────────
+  // ── AI Voice Receptionist ───────────────────────────────────────────────────
   {
     slug: "ai-voice-receptionist",
     project: "call-agent",
@@ -204,7 +204,7 @@ export const caseStudies: CaseStudy[] = [
     },
   },
 
-  // ── 02 · Pre-Call Brief Generator ───────────────────────────────────────────
+  // ── Pre-Call Brief Generator ────────────────────────────────────────────────
   {
     slug: "automated-pre-call-brief-generator",
     project: "pre-call-brief",
@@ -316,7 +316,7 @@ export const caseStudies: CaseStudy[] = [
     },
   },
 
-  // ── 03 · AI Google Ads Automation ───────────────────────────────────────────
+  // ── AI Google Ads Automation ────────────────────────────────────────────────
   {
     slug: "ai-google-ads-automation",
     project: "ads-agent",

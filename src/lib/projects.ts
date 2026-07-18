@@ -21,14 +21,14 @@ export const projectsHeading = "OUR HIGHLIGHTS";
 export const projects: Project[] = [
   {
     n: "01",
-    slug: "call-agent",
-    title: "AI Voice Receptionist",
+    slug: "ads-agent",
+    title: "Google Ads Agent",
     description:
-      "A 24/7 voice agent for U.S. med spas that answers every call, books and reschedules appointments, handles FAQs, and texts confirmations. Twilio into Vapi (Deepgram, Claude, ElevenLabs) into a Fastify backend, with a live dashboard that streams each call as it happens.",
-    stack: ["VAPI", "TWILIO", "CLAUDE", "ELEVENLABS", "FASTIFY", "POSTGRES"],
-    image: "/projects/call_agent.jpg",
-    video: "https://res.cloudinary.com/df4tjjqmc/video/upload/v1784058624/call_agent_ef3eaa.mp4",
-    caseStudy: "ai-voice-receptionist",
+      "A multi-client Google Ads co-pilot for agencies: competitor research, on-brand Search and Display creative at volume, campaign assembly, and human-approved publishing. Budgets and launches stay under deterministic human control, never the model's.",
+    stack: ["NEXT.JS", "LANGCHAIN", "GEMINI", "GOOGLE ADS API", "SATORI", "SUPABASE"],
+    image: "/projects/ads_agent.png",
+    video: "https://res.cloudinary.com/df4tjjqmc/video/upload/v1784059348/ads_agent_py5drv.mp4",
+    caseStudy: "ai-google-ads-automation",
   },
   {
     n: "02",
@@ -44,13 +44,13 @@ export const projects: Project[] = [
   },
   {
     n: "03",
-    slug: "ads-agent",
-    title: "Google Ads Agent",
+    slug: "call-agent",
+    title: "AI Voice Receptionist",
     description:
-      "A multi-client Google Ads co-pilot for agencies: competitor research, on-brand Search and Display creative at volume, campaign assembly, and human-approved publishing. Budgets and launches stay under deterministic human control, never the model's.",
-    stack: ["NEXT.JS", "LANGCHAIN", "GEMINI", "GOOGLE ADS API", "SATORI", "SUPABASE"],
-    image: "/projects/ads_agent.png",
-    video: "https://res.cloudinary.com/df4tjjqmc/video/upload/v1784059348/ads_agent_py5drv.mp4",
-    caseStudy: "ai-google-ads-automation",
+      "After-hours intake for an agency's clients, built here for U.S. med spas: a 24/7 voice agent that answers every call, books and reschedules appointments, handles FAQs, and texts confirmations. Twilio into Vapi (Deepgram, Claude, ElevenLabs) into a Fastify backend, with a live dashboard that streams each call as it happens.",
+    stack: ["VAPI", "TWILIO", "CLAUDE", "ELEVENLABS", "FASTIFY", "POSTGRES"],
+    image: "/projects/call_agent.jpg",
+    video: "https://res.cloudinary.com/df4tjjqmc/video/upload/v1784058624/call_agent_ef3eaa.mp4",
+    caseStudy: "ai-voice-receptionist",
   },
 ];

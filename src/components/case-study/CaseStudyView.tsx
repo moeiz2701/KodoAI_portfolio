@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useLenis } from "lenis/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -22,9 +23,17 @@ gsap.registerPlugin(ScrollTrigger);
  */
 export default function CaseStudyView({ cs }: { cs: CaseStudy }) {
   const root = useRef<HTMLElement>(null);
+  const lenis = useLenis();
 
   useGSAP(
     () => {
+      // Land at the top. Lenis keeps its scroll offset across client navigations,
+      // so the (tall) homepage offset would otherwise carry into this shorter
+      // page and drop it on the footer. Reset here, before the reveal triggers
+      // are built, so this page opens at the start with its reveals intact.
+      if (lenis) lenis.scrollTo(0, { immediate: true });
+      else window.scrollTo(0, 0);
+
       const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduced) return; // elements stay at their natural (visible) state
 

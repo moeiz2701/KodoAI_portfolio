@@ -62,7 +62,7 @@ export default function Quotation() {
             </span>
           ))}
         </blockquote>
-        <p className="q-attr eyebrow mt-10">— {quotation.attribution}</p>
+        <p className="q-attr eyebrow mt-10">{quotation.attribution}</p>
       </div>
     </section>
   );

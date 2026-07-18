@@ -52,27 +52,27 @@ export const hero = {
 
 export const quotation = {
   eyebrow: "// OUR THESIS",
-  text: "EVERY HOUR YOUR TEAM SPENDS ON REPETITIVE WORK IS AN HOUR A MACHINE SHOULD HAVE TAKEN. WE FIND THOSE HOURS, AND WE GIVE THEM BACK.",
-  highlights: ["REPETITIVE WORK", "GIVE THEM BACK"],
+  text: "EVERY REPETITIVE TASK YOUR TEAM STILL DOES BY HAND IS REVENUE LEAKING AND A CLIENT AT RISK. WE FIND THE MOST EXPENSIVE ONE, AND WE REMOVE IT.",
+  highlights: ["REVENUE LEAKING", "REMOVE IT."],
   attribution: "KODOAI · AUTOMATION AGENCY",
 };
 
 // -- 03 Process Timeline -------------------------------------------------------
 
-export const processEyebrow = "// PROCESS — HOW WE WORK";
+export const processEyebrow = "// PROCESS · HOW WE WORK";
 
 export const process: ProcessPhase[] = [
   {
     n: "01",
     title: "WE AUDIT",
-    body: "It starts with a free ad-account teardown. Read access or a few screenshots of one client account, and we show you exactly where spend is leaking and which creative has fatigued. No pitch, just proof.",
+    body: "It starts with an audit. Often an ad-account teardown: read access or a few screenshots of one client account, and we show you where spend is leaking and which creative has fatigued. When the drain is elsewhere, onboarding, reporting, intake, we find that instead. No pitch, just proof.",
     chips: ["ACCOUNT TEARDOWN", "LEAK REPORT", "FATIGUE SCAN"],
   },
   {
     n: "02",
     title: "WE QUANTIFY",
-    body: "Every leak gets a number: hours lost to manual pacing, ROAS dragged down by tired creative, the payback period on fixing it. You see the ROI before we write a line of code.",
-    chips: ["ROI MODEL", "HOURS SAVED", "PAYBACK PERIOD"],
+    body: "Every leak gets a number: revenue bleeding from mispaced budget, ROAS dragged down by tired creative, the payback period on fixing it. You see the ROI before we write a line of code.",
+    chips: ["ROI MODEL", "REVENUE AT RISK", "PAYBACK PERIOD"],
   },
   {
     n: "03",
@@ -115,7 +115,7 @@ export const faq: QA[] = [
   },
   {
     q: "How do we get started?",
-    a: "With a free ad-account teardown. Give us read access or a few screenshots of one client account and we'll show you where spend is leaking and which creative has fatigued. If it's worth building, we scope from there: audit, build, then retain.",
+    a: "With an audit, often an ad-account teardown. Give us read access or a few screenshots of one client account and we'll show you where spend is leaking and which creative has fatigued. When the most expensive drain sits elsewhere, onboarding, reporting, intake, we audit that instead. If it's worth building, we scope from there: audit, build, then retain.",
   },
   {
     q: "Will an agent mismanage my ad spend?",
@@ -139,7 +139,7 @@ export const faq: QA[] = [
 
 export const finalCta = {
   eyebrow: "// READY WHEN YOU ARE",
-  lead: "IN AN AD ACCOUNT, MANUAL WORK ISN'T SLOW.",
+  lead: "IN AN AGENCY, MANUAL WORK ISN'T SLOW.",
   accent: "IT'S MONEY LEAKING IN REAL TIME.",
   ctaLabel: "LET'S AUTOMATE",
 };

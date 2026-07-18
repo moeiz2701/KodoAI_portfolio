@@ -10,7 +10,8 @@ import DotMatrix from "@/components/canvas/DotMatrix";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// KODOAI split into letters; the AI pair carries the accent.
+// KODOAI split into letters; the AI pair carries the accent at full opacity
+// plus the `.accent-bloom` halo, while KODO stays dimmed and recessive.
 const LETTERS = [
   ...site.wordmark.light.split("").map((c) => ({ c, accent: false })),
   ...site.wordmark.accent.split("").map((c) => ({ c, accent: true })),
@@ -133,11 +134,8 @@ export default function Hero() {
           {LETTERS.map((l, i) => (
             <span
               key={i}
-              className="hero-letter inline-block"
-              style={{
-                color: l.accent ? "var(--accent)" : "var(--ink)",
-                opacity: l.accent ? 0.55 : 0.35,
-              }}
+              className={`hero-letter inline-block${l.accent ? " accent-bloom" : ""}`}
+              style={l.accent ? undefined : { color: "var(--ink)", opacity: 0.35 }}
             >
               {l.c}
             </span>
