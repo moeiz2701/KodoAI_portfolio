@@ -280,6 +280,44 @@ html {
   to { transform: rotate(360deg); }
 }
 
+/* Preloader: the mark's accent block beats like a pulse monitor — dim at rest,
+   two quick flashes (lub-dub), then a hold. Applied to an SVG <rect>, so it
+   needs `transform-box: fill-box` for the scale to pivot on the block itself.
+   The rule's own resting state is full accent: under reduced motion the
+   animation is cut and the mark is left reading correctly, not stuck dim. */
+.logo-beat {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: logo-beat 1.7s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+@keyframes logo-beat {
+  0%, 100% {
+    opacity: 0.16;
+    transform: scale(1);
+    filter: none;
+  }
+  7% {
+    opacity: 1;
+    transform: scale(1.07);
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 55%, transparent));
+  }
+  16% {
+    opacity: 0.3;
+    transform: scale(1);
+    filter: none;
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 20px color-mix(in srgb, var(--accent) 45%, transparent));
+  }
+  42% {
+    opacity: 0.16;
+    transform: scale(1);
+    filter: none;
+  }
+}
+
 /* Hero wordmark: the AI pair sits at full opacity and carries a soft accent
    bloom (three stacked halos, tight to wide) that breathes slowly. Only ever
    applied to the accent letters — KODO stays flat and recessive. */
@@ -313,6 +351,7 @@ html {
   .grain { animation: none; }
   .spin-slow { animation: none; }
   .accent-bloom { animation: none; } /* bloom stays, it just stops breathing */
+  .logo-beat { animation: none; opacity: 1; } /* mark rests lit, never mid-beat */
   *,
   *::before,
   *::after {

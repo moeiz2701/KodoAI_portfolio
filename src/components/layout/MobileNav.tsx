@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import Image from "next/image";
 import { useLenis } from "lenis/react";
 import { footer, site, socials, type NavLink } from "@/lib/content";
 import BookCallButton from "@/components/ui/BookCallButton";
+import LogoMark from "@/components/ui/LogoMark";
 
 /**
  * Mobile navigation (md:hidden). A hamburger in the header opens a full-screen,
@@ -97,7 +97,7 @@ export default function MobileNav({
             className="flex items-center"
             aria-label={`${site.name} home`}
           >
-            <Image src="/logo-mark.png" alt={site.name} width={718} height={718} className="h-9 w-auto" />
+            <LogoMark title={site.name} className="h-9 w-auto text-muted" />
           </a>
           <button
             type="button"

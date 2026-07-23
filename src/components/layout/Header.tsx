@@ -1,12 +1,12 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { nav, site, type NavLink } from "@/lib/content";
 import { useLoaded } from "@/lib/loaded";
 import Button from "@/components/ui/Button";
+import LogoMark from "@/components/ui/LogoMark";
 import MobileNav from "@/components/layout/MobileNav";
 
 /**
@@ -57,14 +57,7 @@ export default function Header({
       <div className="flex items-center justify-between px-6 py-6 md:px-12">
         {/* logo mark */}
         <a href={logoHref} className="header-item flex items-center" aria-label={`${site.name} home`}>
-          <Image
-            src="/logo-mark.png"
-            alt={site.name}
-            width={718}
-            height={718}
-            priority
-            className="h-9 w-auto md:h-10"
-          />
+          <LogoMark title={site.name} className="h-9 w-auto text-muted md:h-10" />
         </a>
 
         {/* center nav */}

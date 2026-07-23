@@ -5,6 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { blurDataURL } from "@/lib/placeholder";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -89,7 +90,15 @@ export default function ProjectMedia({
         >
           {/* over-sized layer (120% tall) so the parallax drift never bares an edge */}
           <span className="hl-parallax absolute inset-x-0 -top-[10%] block h-[120%]">
-            <Image src={image} alt={title} fill sizes="(max-width: 768px) 100vw, 1024px" className="object-cover" />
+            <Image
+              src={image}
+              alt={title}
+              fill
+              sizes="(max-width: 768px) 100vw, 1024px"
+              placeholder="blur"
+              blurDataURL={blurDataURL}
+              className="object-cover"
+            />
           </span>
           {/* scrim + pill — hover-revealed on pointer devices, always shown on touch / mobile width */}
           <span

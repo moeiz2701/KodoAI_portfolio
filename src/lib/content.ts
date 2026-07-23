@@ -23,7 +23,7 @@ export const site = {
   name: "kodoAI",
   wordmark: { light: "KODO", accent: "AI" },
   tagline: "IF IT'S MANUAL AND MEASURABLE, IT CAN BE AUTOMATED",
-  sub: "Custom AI agent systems for agencies that turn repetitive work into revenue.",
+  sub: "Custom AI agents and internal software that take the repetitive work off your team, in any industry.",
   email: "hello@sobanahmad.dev",
   location: ["Working worldwide."],
   cta: { label: "START A PROJECT", href: "#footer" },
@@ -45,15 +45,17 @@ export const socials: Social[] = [
 export const hero = {
   eyebrow: "// FULL STACK AI AUTOMATION",
   headline: "IF IT'S MANUAL AND MEASURABLE, IT CAN BE AUTOMATED.",
-  sub: "Custom AI agent systems for agencies that turn repetitive work into revenue.",
+  sub: "Custom AI agents and internal software for any business: operations, sales, support, finance, marketing.",
 };
 
 // -- 02 Quotation --------------------------------------------------------------
 
 export const quotation = {
   eyebrow: "// OUR THESIS",
-  text: "EVERY REPETITIVE TASK YOUR TEAM STILL DOES BY HAND IS REVENUE LEAKING AND A CLIENT AT RISK. WE FIND THE MOST EXPENSIVE ONE, AND WE REMOVE IT.",
-  highlights: ["REVENUE LEAKING", "REMOVE IT."],
+  text: "EVERY PROCESS YOUR TEAM STILL RUNS BY HAND IS PAID FOR TWICE: ONCE IN HOURS, AGAIN IN THE WORK IT CROWDS OUT. WE FIND THE MOST EXPENSIVE ONE, AND WE REMOVE IT.",
+  // Phrases must include their trailing punctuation: splitWords matches them as
+  // literal substrings, so a stray ":" would break off into its own word.
+  highlights: ["PAID FOR TWICE:", "REMOVE IT."],
   attribution: "KODOAI · AUTOMATION AGENCY",
 };
 
@@ -65,26 +67,26 @@ export const process: ProcessPhase[] = [
   {
     n: "01",
     title: "WE AUDIT",
-    body: "It starts with an audit. Often an ad-account teardown: read access or a few screenshots of one client account, and we show you where spend is leaking and which creative has fatigued. When the drain is elsewhere, onboarding, reporting, intake, we find that instead. No pitch, just proof.",
-    chips: ["ACCOUNT TEARDOWN", "LEAK REPORT", "FATIGUE SCAN"],
+    body: "It starts with a teardown of one workflow: the quote that takes three days, the report rebuilt every Monday, the inbox nobody owns, the ad account nobody has time to watch. We sit with the people who actually run it and map every step, handoff, and wait. No pitch, just proof.",
+    chips: ["WORKFLOW MAP", "TIME AUDIT", "HANDOFF TEARDOWN"],
   },
   {
     n: "02",
     title: "WE QUANTIFY",
-    body: "Every leak gets a number: revenue bleeding from mispaced budget, ROAS dragged down by tired creative, the payback period on fixing it. You see the ROI before we write a line of code.",
-    chips: ["ROI MODEL", "REVENUE AT RISK", "PAYBACK PERIOD"],
+    body: "Every step gets a number: hours burned per month, what the delay costs in lost deals or churn, what a fix is worth, and how fast it pays for itself. You see the ROI before we write a line of code, and sometimes the honest answer is that the process just needs deleting.",
+    chips: ["ROI MODEL", "COST OF DELAY", "PAYBACK PERIOD"],
   },
   {
     n: "03",
     title: "WE BUILD",
-    body: "We build the agent into your exact stack and branding, wired to reporting, intake, and onboarding. Human approval gates on anything that moves budget, full autonomy on the rest.",
-    chips: ["CUSTOM AGENT", "STACK INTEGRATION", "APPROVAL GATES"],
+    body: "We build into your stack, not around it: your CRM, your database, your spreadsheets, your tools, your branding. Agents where judgement is needed, plain deterministic code where it is not. Human approval gates on anything that touches money or customers, full autonomy on the rest.",
+    chips: ["CUSTOM AGENTS", "STACK INTEGRATION", "APPROVAL GATES"],
   },
   {
     n: "04",
     title: "WE RUN",
-    body: "The agent watches every account 24/7, catching CPA spikes and creative fatigue before they cost the client and reallocating budget in real time. Monthly tuning keeps it compounding.",
-    chips: ["24/7 MONITORING", "SPIKE ALERTS", "MONTHLY TUNING"],
+    body: "Automation is only worth what it does on its worst day, so we monitor it. Failures alert instead of silently dropping work, edge cases come back as fixes, and monthly tuning keeps the system compounding as your process changes.",
+    chips: ["24/7 MONITORING", "FAILURE ALERTS", "MONTHLY TUNING"],
   },
 ];
 
@@ -95,12 +97,38 @@ export const process: ProcessPhase[] = [
 export const servicesEyebrow = "WHAT WE CAN HELP WITH";
 
 export const services: Service[] = [
-  { title: "AD-OPS AGENTS", desc: "Creative generated, tested, and optimized across Meta, Google, and TikTok" },
-  { title: "CPA & FATIGUE MONITORING", desc: "Spikes and tired creative caught before they cost the client" },
-  { title: "COMPETITOR AD INTELLIGENCE", desc: "Rival ad libraries watched for creative and spend shifts" },
-  { title: "PRE-SALES RESEARCH AGENTS", desc: "Prospect URL in, a branded pre-call brief out in 90 seconds" },
-  { title: "REPORTING & ONBOARDING", desc: "Cross-platform data and kickoff calls into client-ready briefs" },
-  { title: "INTAKE & VOICE AGENTS", desc: "After-hours calls and forms answered, qualified, booked 24/7" },
+  {
+    title: "WORKFLOW AUTOMATION",
+    desc: "The multi-step process that eats your week, running end to end without a human relay",
+  },
+  {
+    title: "INTERNAL TOOLS",
+    desc: "The dashboard, portal, or admin panel your team keeps faking in a spreadsheet",
+  },
+  {
+    title: "DOCUMENT & DATA AGENTS",
+    desc: "Invoices, contracts, forms, and PDFs read, checked, and filed into your systems",
+  },
+  {
+    title: "VOICE & INTAKE AGENTS",
+    desc: "Calls, forms, and after-hours enquiries answered, qualified, and booked 24/7",
+  },
+  {
+    title: "SALES & RESEARCH AGENTS",
+    desc: "Prospects researched, briefs written, and follow-up drafted before the call",
+  },
+  {
+    title: "AD-OPS & GROWTH AGENTS",
+    desc: "Creative generated, tested, and optimized across Meta, Google, and TikTok",
+  },
+  {
+    title: "SYSTEM INTEGRATIONS",
+    desc: "The tools that do not talk to each other, wired together and kept in sync",
+  },
+  {
+    title: "MONITORING & REPORTING",
+    desc: "Numbers pulled, checked, and delivered on schedule, with alerts when they move",
+  },
 ];
 
 // -- 06 Q&A --------------------------------------------------------------------
@@ -110,28 +138,36 @@ export const faqIntro = "Everything clients ask before starting.";
 
 export const faq: QA[] = [
   {
-    q: "What does the ad-ops agent actually do?",
-    a: "It generates, A/B tests, and optimizes creative across Meta, Google, and TikTok, tracks CTR, CPR, and ROAS in real time, and catches CPA spikes and creative fatigue the moment they start. Anything that moves budget waits for your approval.",
+    q: "What kind of work do you actually automate?",
+    a: "Anything manual and measurable, in any industry. Quoting, onboarding, intake, reporting, document processing, data entry between systems that don't talk, support and phone coverage, research and prep, ad operations. If it follows rules, repeats, and someone can describe it, it can usually be built.",
   },
   {
     q: "How do we get started?",
-    a: "With an audit, often an ad-account teardown. Give us read access or a few screenshots of one client account and we'll show you where spend is leaking and which creative has fatigued. When the most expensive drain sits elsewhere, onboarding, reporting, intake, we audit that instead. If it's worth building, we scope from there: audit, build, then retain.",
+    a: "With an audit of one workflow. We sit with the people who run it, map every step and handoff, and put hours and costs against it. If it's worth building, we scope from there: audit, build, then retain. If it isn't, we'll say so.",
   },
   {
-    q: "Will an agent mismanage my ad spend?",
-    a: "No budget moves without a human approval gate wherever you want one, and the system degrades gracefully instead of guessing. The safety layer is the point, not an afterthought.",
+    q: "Is this just AI wrappers, or real software?",
+    a: "Real software. We use models where judgement is genuinely needed (reading messy documents, drafting, classifying, holding a conversation) and plain deterministic code everywhere else, because it's cheaper, faster, and doesn't hallucinate. Most builds are mostly ordinary engineering with agents at the edges.",
   },
   {
-    q: "How is this different from Madgicx or Revealbot?",
-    a: "Those are generic products you adapt to. We build a bespoke agent into your exact workflow, branding, and stack, wired to your reporting, intake, and onboarding, and pass every API cost through at zero markup.",
+    q: "Will an agent do something it shouldn't?",
+    a: "Nothing that touches money, customers, or production data moves without a human approval gate wherever you want one, and the system degrades gracefully instead of guessing. Failures raise alerts rather than silently dropping work. The safety layer is the point, not an afterthought.",
+  },
+  {
+    q: "How is this different from an off-the-shelf tool or Zapier?",
+    a: "Products make you adapt to their idea of your process, and break at the edge cases that make your business yours. We build into your exact workflow, stack, and branding, own the edge cases, and pass every API or third-party cost through at zero markup.",
   },
   {
     q: "What does it cost?",
-    a: "Single-agent builds run a few thousand dollars one-time; ongoing monitoring is a monthly retainer, and every API or third-party cost passes through at zero markup. Every proposal comes with a payback period. If we can't show the system paying for itself, we'll tell you not to build it.",
+    a: "Single-system builds run a few thousand dollars one-time; ongoing monitoring is a monthly retainer, and every API or third-party cost passes through at zero markup. Every proposal comes with a payback period. If we can't show the system paying for itself, we'll tell you not to build it.",
   },
   {
     q: "How long does a build take, and what happens after?",
-    a: "The teardown is same-week; most agents ship in 2 to 6 weeks (a full platform like AR&CO took 12). After launch it's monitoring, alerts, and monthly tuning: the automation is an asset we keep compounding.",
+    a: "The audit is same-week; most builds ship in 2 to 6 weeks (a full platform like AR&CO took 12). After launch it's monitoring, alerts, and monthly tuning: the automation is an asset we keep compounding.",
+  },
+  {
+    q: "We're not an agency. Does that matter?",
+    a: "No. Agencies were where we started and they're still a big part of the work, but the method is industry-agnostic: find the most expensive manual process, quantify it, remove it. Clinics, e-commerce, professional services, and software teams all have the same problem in different clothes.",
   },
 ];
 
@@ -139,7 +175,7 @@ export const faq: QA[] = [
 
 export const finalCta = {
   eyebrow: "// READY WHEN YOU ARE",
-  lead: "IN AN AGENCY, MANUAL WORK ISN'T SLOW.",
+  lead: "IN A BUSINESS, MANUAL WORK ISN'T SLOW.",
   accent: "IT'S MONEY LEAKING IN REAL TIME.",
   ctaLabel: "LET'S AUTOMATE",
 };

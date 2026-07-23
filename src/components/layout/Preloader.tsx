@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { markLoaded } from "@/lib/loaded";
+import LogoMark from "@/components/ui/LogoMark";
 
 /**
  * Full-screen preloader (IMPLEMENTATION.md §11 A1). Solid --bg (same as the page
- * background) with the logo spinning in the centre. Waits for the fonts and the
- * window load event (plus a small minimum so it never just flashes, and an 8s
- * safety cap), then fades out smoothly and unmounts. Rendered on the server too,
- * so it covers the page from the very first paint.
+ * background) with the mark centred, its accent block beating like a pulse
+ * monitor (`.logo-beat` in globals.css) while the page loads. Waits for the
+ * fonts and the window load event (plus a small minimum so it never just
+ * flashes, and an 8s safety cap), then fades out smoothly and unmounts.
+ * Rendered on the server too, so it covers the page from the very first paint.
  */
 export default function Preloader() {
   const [done, setDone] = useState(false); // loaded → begin fade
@@ -62,16 +63,7 @@ export default function Preloader() {
         done ? "pointer-events-none opacity-0" : "opacity-100"
       }`}
     >
-      <span className="inline-block" style={{ animation: "spin 1.4s linear infinite" }}>
-        <Image
-          src="/logo-mark.png"
-          alt=""
-          width={718}
-          height={718}
-          priority
-          className="h-20 w-auto md:h-24"
-        />
-      </span>
+      <LogoMark className="h-20 w-auto text-muted md:h-24" accentClassName="logo-beat" />
     </div>
   );
 }

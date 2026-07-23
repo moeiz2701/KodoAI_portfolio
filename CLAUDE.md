@@ -62,16 +62,20 @@ src/
 │   ├── layout/           # Header (logo mark), Footer, Preloader
 │   ├── sections/         # Hero, Quotation, ProcessTimeline, Projects, Services, FAQ
 │   ├── canvas/DotMatrix.tsx         # animated dot-cloud; reused in hero + footer via `intensity`
-│   └── ui/               # Button, Badge, Hairline, ProjectMedia (hover/tap-to-play video)
+│   └── ui/               # Button, Badge, Hairline, ProjectMedia (hover/tap-to-play video), LogoMark (vector mark)
 └── lib/
     ├── content.ts        # ALL copy + types (EXCEPT the Highlights/Projects data)
     ├── projects.ts       # Highlights data, distilled from previous_projects/*.md
+    ├── placeholder.ts    # GENERATED — inline blurDataURL + branded placeholder paths
     └── splitWords.ts     # word-split helper for the Quotation scrub (no paid SplitText)
+
+scripts/                  # brand.mjs (mark geometry + SVG builders) + generate-brand-assets.mjs (`npm run assets`)
 ```
 
-`public/`: `logo-mark.png` (tight crop of `logo.png`, used in the header + preloader),
-`projects/*.{jpg,png}` (Highlights pictures, downscaled), `reference/banner.png`.
-Path alias: `@/*` → `src/*` (use `@/components/...`, `@/lib/...`, never deep relative paths).
+`public/`: **generated brand assets** in `icons/`, `brand/`, `avatars/`, `placeholder/`,
+plus `favicon.ico` + `logo-mark.png` — all rebuilt by `npm run assets`, do not hand-edit
+(see `public/brand/README.md`). `projects/*.{jpg,png}` (Highlights pictures, downscaled),
+`reference/banner.png`. Path alias: `@/*` → `src/*` (use `@/components/...`, `@/lib/...`).
 
 ## Conventions (from the actual code)
 
@@ -116,11 +120,22 @@ Phases 1–4 are committed; the working tree carries a large visual/interaction 
 (uncommitted). Current behaviour of the code:
 
 **Working:**
-- **Preloader** (`layout/Preloader.tsx`) — logo spinning on solid `--bg`; waits for
-  `fonts.ready` + window `load` (min 600ms, 8s cap), then fades out and unmounts.
+- **Preloader** (`layout/Preloader.tsx`) — the vector mark (`ui/LogoMark.tsx`) on solid
+  `--bg`, its accent block **beating like a pulse** (`.logo-beat` in globals.css: dim at
+  rest, lub-dub flash, hold); waits for `fonts.ready` + window `load` (min 600ms, 8s cap),
+  then fades out and unmounts.
+- **Brand assets** — the mark is an inline SVG component (`ui/LogoMark.tsx`, recolourable
+  via `currentColor` + `--accent`) used in the header, mobile nav, and preloader. Every
+  off-page icon/logo (favicons, PWA/apple/safari/windows icons, horizontal + square
+  lockups, email logo/banner, SEO logo, testimonial avatars, media placeholders) is
+  **generated** into `public/{icons,brand,avatars,placeholder}` by `npm run assets`
+  (`scripts/generate-brand-assets.mjs` + `scripts/brand.mjs`, text set in the vendored
+  Barlow/Plex TTFs via sharp). Icons/manifest/JSON-LD are wired in `app/layout.tsx`,
+  `site.webmanifest`, `browserconfig.xml`. See `public/brand/README.md`. Keep `brand.mjs`
+  and `LogoMark.tsx` geometry in sync.
 - **Hero** — DotMatrix is now a dense **dot cloud** (small filled dots sized by noise
   brightness, not the old sparse `×` grid); giant wordmark raised + low-opacity; tagline
-  small/muted; accent glow. Header uses the **logo image**, not the text wordmark.
+  small/muted; accent glow. Header uses the **vector mark**, not the text wordmark.
 - **Green depth** — `.depth-band` seamless gradient + `--accent-glow` tokens; glows in
   hero and footer.
 - **Process** (`ProcessTimeline.tsx`) — reworked from the spec's pinned horizontal scroll
