@@ -97,9 +97,16 @@ export default function ProjectMedia({
               sizes="(max-width: 768px) 100vw, 1024px"
               placeholder="blur"
               blurDataURL={blurDataURL}
-              className="object-cover"
+              className="object-cover grayscale contrast-[1.05] brightness-[0.62]"
             />
           </span>
+          {/* mono treatment: the grayscale poster takes a slight accent-green cast
+              (mix-blend color tints the darkened image without lifting it). */}
+          <span
+            aria-hidden
+            className="pointer-events-none absolute inset-0"
+            style={{ background: "var(--accent)", mixBlendMode: "color", opacity: 0.18 }}
+          />
           {/* scrim + pill — hover-revealed on pointer devices, always shown on touch / mobile width */}
           <span
             className={`absolute inset-0 flex items-center justify-center transition-colors duration-300 ${

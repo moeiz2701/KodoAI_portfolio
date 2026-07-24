@@ -53,4 +53,28 @@ export const projects: Project[] = [
     video: "https://res.cloudinary.com/df4tjjqmc/video/upload/v1784058624/call_agent_ef3eaa.mp4",
     caseStudy: "ai-voice-receptionist",
   },
+  {
+    n: "04",
+    slug: "legal-ops",
+    title: "Legal Operations Platform",
+    description:
+      "An operations platform for a law firm that automates the paperwork around every client. A guest fills one intake form, pays, and the system auto-creates their account, files the case, and issues a reference number with no staff touching it. Consultations gate behind payment then auto-book, and a row-level security layer keeps clients, attorneys, and staff to exactly what they should see.",
+    stack: ["NEST.JS", "SUPABASE", "POSTGRES", "LEMON SQUEEZY", "CAL.COM", "NEXT.JS"],
+    // TODO: client-supplied poster + demo clip pending; using branded placeholder for now.
+    image: "/projects/arco.jpg",
+    video: "",
+    caseStudy: "law-firm-operations-automation",
+  },
+  {
+    n: "05",
+    slug: "quant-platform",
+    title: "Quant Trading Platform",
+    description:
+      "A full-stack quant platform that lets a non-coder automate trading the way a prop desk does. Strategies are built as a visual node graph, a genetic algorithm auto-tunes their parameters against walk-forward validation, ML models score every bar, and an AI agent researches and edits the graph on request. A risk engine sizes positions and auto-exits on breach, while real-money execution stays deliberately behind human control.",
+    stack: ["NEXT.JS", "EXPRESS", "POSTGRES", "REDIS", "PYTHON", "XGBOOST"],
+    // TODO: client-supplied poster + demo clip pending; using branded placeholder for now.
+    image: "/projects/trading.jpg",
+    video: "",
+    caseStudy: "no-code-trading-automation",
+  },
 ];

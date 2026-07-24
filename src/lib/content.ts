@@ -31,8 +31,8 @@ export const site = {
 
 export const nav: NavLink[] = [
   { label: "ABOUT", href: "#quotation" },
-  { label: "WORK", href: "#projects" },
   { label: "PROCESS", href: "#process" },
+  { label: "WORK", href: "#projects" },
   { label: "SERVICES", href: "#services" },
 ];
 
@@ -192,8 +192,8 @@ export const footer = {
   navHeading: "NAVIGATION",
   nav: [
     { label: "ABOUT", href: "#quotation" },
-    { label: "WORK", href: "#projects" },
     { label: "PROCESS", href: "#process" },
+    { label: "WORK", href: "#projects" },
     { label: "SERVICES", href: "#services" },
     { label: "CONTACT", href: "#footer" },
   ] as NavLink[],

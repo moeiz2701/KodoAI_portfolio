@@ -451,6 +451,230 @@ export const caseStudies: CaseStudy[] = [
       label: "BOOK A 15-MIN CALL",
     },
   },
+
+  // ── Law Firm Operations Automation (AR&CO) ──────────────────────────────────
+  {
+    slug: "law-firm-operations-automation",
+    project: "legal-ops",
+    ambient: "LEGAL OPS",
+    title: "LAW FIRM OPS",
+    titleSub: "AUTOMATION",
+    lead: "A full operations platform for AR&CO, a law firm, that automates the manual work around every client: intake, payment, account creation, case filing, billing, and the civic-complaint workflow, all wired into one secure system.",
+    meta: [
+      { label: "Vertical", value: "Legal / Professional Services" },
+      { label: "By", value: "Soban Ahmad, KodoAI" },
+    ],
+    rating: false,
+    techStack: [
+      "NestJS", "Next.js", "Supabase", "PostgreSQL", "Row-Level Security",
+      "Lemon Squeezy", "Cal.com", "SendGrid", "TypeScript", "Zod",
+    ],
+    problem: {
+      heading: { lead: ["THE FIRM", "WAS THE"], tail: "BOTTLENECK.", tailAccent: true },
+      body: [
+        "A law firm's front office runs on manual relay. Every new client means a staff member keying in details, chasing payment, opening an account, creating the case file, and numbering it by hand. Consultations get booked over email tag. Complaints get tracked in a spreadsheet. None of it scales past the hours in a day.",
+        "The firm wanted a single platform where a client could self-serve from the first form to a paid, filed case, and where staff only step in for the judgement calls, not the data entry. The hard part was doing that without loosening who can see what: client records, case files, and payments all sit behind strict access rules.",
+      ],
+      quote:
+        "Every step a paralegal did by hand between a form submission and an open case is now a pipeline that runs itself.",
+    },
+    built: {
+      eyebrow: "// WHAT WAS BUILT",
+      heading: { lead: ["INTAKE TO"], tail: "OPEN CASE.", tailAccent: false },
+      intro:
+        "A guest submits one form and pays. From there the platform provisions the account, files the case, issues the reference number, and emails credentials, with no staff member in the loop until the work itself needs doing.",
+      cards: [
+        {
+          num: "01",
+          title: "Self-Serve Intake",
+          description:
+            "A multi-step form takes a client's details, documents, and payment with no account required. The account is created only once payment clears.",
+          tags: ["Guest Flow", "Document Upload"],
+        },
+        {
+          num: "02",
+          title: "Payment-Triggered Accounts",
+          description:
+            "A Lemon Squeezy webhook confirms payment, then auto-creates the Supabase user, client profile, and login, and emails the credentials via SendGrid.",
+          tags: ["Webhook Pipeline", "Auto Provisioning"],
+        },
+        {
+          num: "03",
+          title: "Gated Consultation Booking",
+          description:
+            "Consultations unlock a Cal.com booking only after the fee is paid; a webhook then links the booking back to the client record automatically.",
+          tags: ["Cal.com", "Pay-to-Book"],
+        },
+      ],
+    },
+    how: {
+      eyebrow: "// HOW IT WORKS",
+      heading: { lead: ["ENGINEERING"], tail: "DECISIONS.", tailAccent: false },
+      intro:
+        "A NestJS API sits over a Supabase Postgres database, with the automation split between deterministic database triggers and webhook-driven services.",
+      rows: [
+        {
+          num: "01",
+          title: "Database-Generated References",
+          description:
+            "Case, invoice, complaint, registration, and consultation numbers are all issued by Postgres triggers (CASE-YYYY-NNNN and friends), so numbering is atomic and never collides.",
+          tags: ["DB Triggers", "Atomic Numbering"],
+        },
+        {
+          num: "02",
+          title: "Row-Level Security",
+          description:
+            "Access is enforced in the database, not just the app. Clients see only their own records, attorneys see assigned cases, and staff see all, checked on every query.",
+          tags: ["RLS", "Role-Based Access"],
+        },
+        {
+          num: "03",
+          title: "Subscription-Gated Workflows",
+          description:
+            "The civic-complaint pipeline (submitted, under review, escalated, resolved) is gated behind an active retainer, verified server-side before a complaint is accepted.",
+          tags: ["Access Gating", "Status Pipeline"],
+        },
+        {
+          num: "04",
+          title: "Automatic Audit Trail",
+          description:
+            "A global interceptor logs every action to an audit table on its own, so there is a complete record of who did what, with no manual logging.",
+          tags: ["Global Interceptor", "Audit Logs"],
+        },
+      ],
+    },
+    outcomes: {
+      eyebrow: "// OUTCOMES",
+      metrics: [
+        { value: "0", label: "Manual Onboarding", sublabel: "Accounts self-provision on payment" },
+        { value: "20+", label: "Tables Automated", sublabel: "One secure Postgres schema" },
+        { value: "100%", label: "Actions Logged", sublabel: "Automatic audit trail" },
+        { value: "12 Wks", label: "To Full Platform", sublabel: "Intake, billing, cases, complaints" },
+      ],
+      checklist: [
+        "Staff stopped keying in new clients: intake, payment, and account creation now run as one automated pipeline",
+        "Case, invoice, and complaint numbers are issued by the database, removing a whole class of manual errors",
+        "Every record sits behind row-level security, so automation never comes at the cost of who can see what",
+      ],
+    },
+    cta: {
+      heading: { lead: ["WANT TO"], tail: "AUTOMATE OPS?", tailAccent: true },
+      body: CTA_BODY,
+      label: "BOOK A 15-MIN CALL",
+    },
+  },
+
+  // ── No-Code Trading Automation (CryptoMind) ─────────────────────────────────
+  {
+    slug: "no-code-trading-automation",
+    project: "quant-platform",
+    ambient: "CRYPTOMIND",
+    title: "NO-CODE TRADING",
+    titleSub: "AUTOMATION",
+    lead: "A full-stack quant platform that lets a non-coder automate trading the way a prop desk does: build a strategy as a visual graph, let a genetic algorithm tune it, score every bar with ML, and deploy it to run, with real-money execution kept deliberately behind human control.",
+    meta: [
+      { label: "Vertical", value: "Fintech / Crypto Trading" },
+      { label: "By", value: "Soban Ahmad, KodoAI" },
+    ],
+    rating: false,
+    techStack: [
+      "Next.js", "React", "Express", "PostgreSQL", "Redis", "Python",
+      "XGBoost", "LightGBM", "CatBoost", "DEAP", "Celery", "Socket.IO", "FAISS",
+    ],
+    problem: {
+      heading: { lead: ["AUTOMATING", "TRADES"], tail: "MEANT CODE.", tailAccent: true },
+      body: [
+        "Automating a trading strategy normally means writing Python, wiring up a backtester, and building your own risk controls, or trusting an opaque signal group. Retail traders juggle a charting tool, a spreadsheet for testing, and a chat channel for signals, none of it connected, none of it automated.",
+        "The goal was a platform where a non-coder could build, validate, optimize, and run a strategy end to end, with the same rigor a quant desk uses to keep automation from blowing up an account. That meant real backtesting, real optimization, and a risk engine that could act on its own, without ever handing the model the keys to real money.",
+      ],
+      quote:
+        "Everything a small prop shop builds in-house, signals, backtesting, optimization, and risk, packaged so a non-coder can operate it.",
+    },
+    built: {
+      eyebrow: "// WHAT WAS BUILT",
+      heading: { lead: ["BUILD, OPTIMIZE,"], tail: "DEPLOY.", tailAccent: false },
+      intro:
+        "Strategies are composed as node graphs and then handed to automated pipelines: ML scoring, genetic optimization, and a risk engine that manages positions once a strategy is live.",
+      cards: [
+        {
+          num: "01",
+          title: "Visual Strategy Builder",
+          description:
+            "A drag-and-drop node graph turns indicators, conditions, and risk rules into a runnable strategy with no code, validated in-canvas before it ships.",
+          tags: ["No-Code Graph", "Instant Backtest"],
+        },
+        {
+          num: "02",
+          title: "ML Signal Pipeline",
+          description:
+            "A four-stage pipeline ends in an XGBoost, LightGBM, and CatBoost ensemble that scores entry and exit probability on every bar, spawned as a Python worker and cached in Redis.",
+          tags: ["Ensemble Models", "Per-Bar Scoring"],
+        },
+        {
+          num: "03",
+          title: "Genetic Optimizer",
+          description:
+            "A DEAP-backed genetic algorithm auto-evolves a strategy's parameters against walk-forward fitness, running async on Celery with overfitting guards built in.",
+          tags: ["Evolutionary Search", "Walk-Forward"],
+        },
+      ],
+    },
+    how: {
+      eyebrow: "// HOW IT WORKS",
+      heading: { lead: ["ENGINEERING"], tail: "DECISIONS.", tailAccent: false },
+      intro:
+        "A Next.js frontend talks to an Express API over a strict controller, service, and repository layering, with Python spawned for the heavy quant work and Postgres and Redis holding state.",
+      rows: [
+        {
+          num: "01",
+          title: "AI Agent That Edits Graphs",
+          description:
+            "An AI research agent reasons over live data, ML, and retrieved history, then edits the strategy graph through structured JSON patch ops, so its changes stay diffable and reversible.",
+          tags: ["Agentic Editing", "Graph Deltas"],
+        },
+        {
+          num: "02",
+          title: "Leak-Proof Validation",
+          description:
+            "Backtests run walk-forward with combinatorially-purged cross-validation, the institutional method that stops look-ahead leakage from faking results.",
+          tags: ["CPCV", "Anti-Overfit"],
+        },
+        {
+          num: "03",
+          title: "Autonomous Risk Engine",
+          description:
+            "An 18-module risk engine sizes positions, watches correlation and exposure, and fires auto-exit or a circuit breaker on breach, acting without waiting on the user.",
+          tags: ["Auto-Exit", "Circuit Breaker"],
+        },
+        {
+          num: "04",
+          title: "Human-Gated Execution",
+          description:
+            "Real-money order execution is deliberately stubbed: only paper and demo trades run today, so every automated decision is proven before custody risk is ever on the table.",
+          tags: ["Paper-First", "Safety Gate"],
+        },
+      ],
+    },
+    outcomes: {
+      eyebrow: "// OUTCOMES",
+      metrics: [
+        { value: "0", label: "Lines of Code", sublabel: "For the user to automate a strategy" },
+        { value: "132", label: "Indicators", sublabel: "Feed both charts and ML features" },
+        { value: "24/7", label: "Risk Monitoring", sublabel: "Auto-exit on breach" },
+        { value: "100%", label: "Validated", sublabel: "Walk-forward plus CPCV, no in-sample fakes" },
+      ],
+      checklist: [
+        "A non-coder can build, backtest, optimize, and deploy a trading strategy without writing a line of code",
+        "Genetic optimization and ML scoring run as automated pipelines, not manual parameter sweeps",
+        "The risk engine acts autonomously while real-money execution stays behind a deliberate human gate",
+      ],
+    },
+    cta: {
+      heading: { lead: ["WANT TO BUILD"], tail: "AUTOMATION?", tailAccent: true },
+      body: CTA_BODY,
+      label: "BOOK A 15-MIN CALL",
+    },
+  },
 ];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {

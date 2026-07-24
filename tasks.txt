@@ -1,22 +1,3 @@
-in the loading screen instead of rotating logo, the logo has four boxes in which one of the box is the theme or accent color that box should blink in heartbeat style, meaning the box will be dim in default and blink in accent color in heartbeat
+the header items are in wrong order ; about process work services
 
-the content of the website feels like it is only for ads automation but this is a general automation agenxy meaning automate any buiness or software work, yes ads are the big part in previous work but now the main target so expand the services and rewrite some of the content 
-
-and create these pictures that will be used by the website and if applciable after creating integrate them as well into the website
-* Favicon
-* Apple Touch Icon
-* Android/PWA Icons
-* Website Logo (horizontal)
-* Website Logo (square)
-* Website Logo (icon-only)
-* Light Logo
-* Dark Logo
-* Testimonial Avatars
-* Email Logo
-* Email Banner
-* Structured Data Logo (SEO)
-* Safari Mask Icon
-* Windows Tile Icon (optional)
-* Loading/Placeholder Images
-* Favicons for Multiple Sizes (16×16, 32×32, 48×48, etc.)
-* Browser Tab Icon
+add two more projects previous_projects\arco.md previous_projects\trading.md, these projects are more of a full stack web applciation read their detials and extract content related to automation and create case studies for them like for current projects, shape case studies that will focus more towards the automation part of these projects , also name then and write description like those as well, i will provide pictures and videos later 
