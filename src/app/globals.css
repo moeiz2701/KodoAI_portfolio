@@ -318,6 +318,17 @@ html {
   }
 }
 
+/* Highlight posters carry a minimal accent halo so each image reads as lit from
+   within; it lifts a touch on hover. Token-only (color-mix off --accent), and the
+   transition collapses under the global reduced-motion rule. */
+.media-glow {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 13%, transparent);
+  transition: box-shadow 0.4s ease;
+}
+.media-glow:hover {
+  box-shadow: 0 0 100px color-mix(in srgb, var(--accent) 13%, transparent);
+}
+
 /* Hero wordmark: the AI pair sits at full opacity and carries a soft accent
    bloom (three stacked halos, tight to wide) that breathes slowly. Only ever
    applied to the accent letters — KODO stays flat and recessive. */
